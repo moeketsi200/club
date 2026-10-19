@@ -1,0 +1,191 @@
+{
+  "version": 1,
+  "skills": {
+    "add-3d-models": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "add-3d-models/SKILL.md",
+      "computedHash": "26baf692014503724a841f051a8d0e9bb913f6bf4c6a8feb2dc15f075093ea0a"
+    },
+    "add-interactivity": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "add-interactivity/SKILL.md",
+      "computedHash": "43b5efbcf586e3c34144bf4aff1345cb7c1680fcbd02bb4f3c7dc8aa70007aff"
+    },
+    "advanced-input": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "advanced-input/SKILL.md",
+      "computedHash": "e03ed249b518dfa3b0f05ffe02c9cbc63ca923eb63e16847ce6754c97cf993dc"
+    },
+    "advanced-rendering": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "advanced-rendering/SKILL.md",
+      "computedHash": "33e8619e980f3c8af41d7ba93f435eb37cfb1695d93f2e521fafd0804f4bf9eb"
+    },
+    "animations-tweens": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "animations-tweens/SKILL.md",
+      "computedHash": "133d463401358ba884ab20b75a44da24f8c0c7f34a009d0c84b90999747e37cc"
+    },
+    "audio-analysis": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "audio-analysis/SKILL.md",
+      "computedHash": "7cc92ec2b4791cd32ed8a12fa3607bc46fdaa2307679382df6ed37308fc5a931"
+    },
+    "audio-video": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "audio-video/SKILL.md",
+      "computedHash": "f476ae0ce0f03f14a7b3515e5a29786d627d103b6e12f220da44fb162f5e6e77"
+    },
+    "authoritative-server": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "authoritative-server/SKILL.md",
+      "computedHash": "be073bd03942ac22ea8d31175ecc692d0522d61f800c31feb8b4f011debf2de1"
+    },
+    "avatar-animations": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "avatar-animations/SKILL.md",
+      "computedHash": "d3b7af40b963f95d50a93a7d777507fb145e3b02c59ca60a7cf463047d4f8940"
+    },
+    "build-ui": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "build-ui/SKILL.md",
+      "computedHash": "606bed0b7762e7bc204e5f800b245acea0647b46eb61c6635042b5536f3ce71b"
+    },
+    "camera-control": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "camera-control/SKILL.md",
+      "computedHash": "09a506fa5117e8cd39fb3cb1af99983fcbcaff5b62abe039a5310ef457e58736"
+    },
+    "composites": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "composites/SKILL.md",
+      "computedHash": "e9766ad12d2b780cc21b3c9afacc5e8c048af6152827879d125bbed554ab889a"
+    },
+    "create-scene": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "create-scene/SKILL.md",
+      "computedHash": "16f0ed9f676c1fef4e3330b50c088f87976866fbd78004ea920178beb5ba496c"
+    },
+    "creator-hub-mcp": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "creator-hub-mcp/SKILL.md",
+      "computedHash": "27a564a7a1435d2da35e3d481eacdbc965d74c21b15004ee6d3aee7ff97395cd"
+    },
+    "deploy-scene": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "deploy-scene/SKILL.md",
+      "computedHash": "09b30e1f758421a846b4232c6c04ed3478cae4fdbbe30174e3f56fd94659f10d"
+    },
+    "deploy-worlds": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "deploy-worlds/SKILL.md",
+      "computedHash": "efaea8ef478d000d2d9437bf4a45ea2cc4cf0496b74b8c636627e213f681659c"
+    },
+    "game-design": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "game-design/SKILL.md",
+      "computedHash": "aef72c6006445b6bb4746b882888c80b3763e6d5e7a2febe37d7035a306b709d"
+    },
+    "lighting-environment": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "lighting-environment/SKILL.md",
+      "computedHash": "e4c59cd995376d2b66d792c51a2867f96d886f5d2cc10477bb0b0f013aaa6e57"
+    },
+    "migrate-sdk6-to-sdk7": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "migrate-sdk6-to-sdk7/SKILL.md",
+      "computedHash": "fe6edaef81b8740b7c7fe804b728a7f64ed42e5c415545e84464c8773d62145a"
+    },
+    "multiplayer-sync": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "multiplayer-sync/SKILL.md",
+      "computedHash": "1dcd5c89aa1c6649eecc0c06d40e4e42dd5955ccedd8b11c0c6c4f7b165dea8b"
+    },
+    "nft-blockchain": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "nft-blockchain/SKILL.md",
+      "computedHash": "7369f0981155ca1d802ed5e5f4f229f6f3251f9a6961a39aa732117d3e0923b5"
+    },
+    "npcs": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "npcs/SKILL.md",
+      "computedHash": "9c92daf22c5da784f6538d88aedf1b3020f33c6ed9c7e0746f7f00c5e97a9711"
+    },
+    "optimize-scene": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "optimize-scene/SKILL.md",
+      "computedHash": "325c8be793e362d6ca6761f25e8b46c4a06065a4b50648f98a2d35a583a87f77"
+    },
+    "particle-system": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "particle-system/SKILL.md",
+      "computedHash": "15c1a10378d24165a9355f880d12ddcec2a4ee8a0c56b5c987959a84fb2f44ef"
+    },
+    "player-avatar": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "player-avatar/SKILL.md",
+      "computedHash": "f2841c343dc717be483729a1ec62db577433bce1666faf3f1fd4ba33200bbd6d"
+    },
+    "player-physics": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "player-physics/SKILL.md",
+      "computedHash": "0344cba618863a8d048440d9a353e675bfb4a7834bc119efdbe980fa11b50b04"
+    },
+    "report-sdk-issue": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "report-sdk-issue/SKILL.md",
+      "computedHash": "f2ee67d62c61c160735b13214cf73ed1a6cc6d8b59987b6042a6106c1ec66282"
+    },
+    "scene-runtime": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "scene-runtime/SKILL.md",
+      "computedHash": "7466351d9883f4ed910a7ec9c33ffbfa1ae68e7e2831462f51755f6df7b63a62"
+    },
+    "script-components": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "script-components/SKILL.md",
+      "computedHash": "088969450cd93bcf4a0ca20ccf0c15bcaae739a391d2130c0f67ba0220207a35"
+    },
+    "sdk-scenes": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "sdk-scenes/SKILL.md",
+      "computedHash": "87a35d030ac16e24c79979fe10ae1c1d2a02405f59c15c7d9bf81b1abca7aad4"
+    },
+    "unity-explorer-mcp": {
+      "source": "decentraland/sdk-skills",
+      "sourceType": "github",
+      "skillPath": "unity-explorer-mcp/SKILL.md",
+      "computedHash": "6915db31cafa96d1f6528c26bc5981c57880976bf466fa2662d4fb4141279356"
+    }
+  }
+}
