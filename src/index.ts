@@ -14,8 +14,12 @@ import {
   InputAction
 } from '@dcl/sdk/ecs'
 import { Vector3, Color4, Color3, Quaternion } from '@dcl/sdk/math'
+import { createElevator } from './elevator'
 
 export function main() {
+  // Initialize Panoramic Glass Elevator for Suites 1 & 2
+  createElevator()
+
   // 1. Villa Architectural Model (Centered at (32, 0, 16))
   const villa = engine.addEntity()
   GltfContainer.create(villa, {

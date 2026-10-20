@@ -474,15 +474,7 @@ for (s_name, t_val, z_base, s_len, s_depth, s_height, shift_y, has_pool) in SIX_
 # -------------------------------------------------------------------------
 # 5. Inter-Suite Connecting Corridors & Circulation Shafts
 # -------------------------------------------------------------------------
-# West Vertical Core (Direct enclosed internal connection between Suite 1 and 2)
-w_cx, w_cy, w_rot = get_curve_coords(-0.65)
-bpy.ops.mesh.primitive_cube_add(size=1.0, location=(w_cx - 2.8, w_cy - 2.6, 6.2))
-w_tower = bpy.context.active_object
-w_tower.name = "Vertical_Core_West"
-w_tower.scale = (3.2, 3.4, 9.8)
-w_tower.rotation_euler = (0, 0, w_rot)
-bpy.ops.object.transform_apply(scale=True, rotation=True)
-w_tower.data.materials.append(mat_stone)
+# (West Wing circulation is handled by the panoramic glass elevator connecting Suite 1 and 2)
 
 # East Vertical Core (Architectural fluted limestone & bronze feature column, non-obstructive)
 e_cx, e_cy, e_rot = get_curve_coords(0.58)
@@ -1363,3 +1355,14 @@ for obj in bpy.data.objects:
             bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
         except Exception:
             pass
+
+# -------------------------------------------------------------------------
+# 9. Export Production GLB Model
+# -------------------------------------------------------------------------
+print("Exporting assets/models/villa.glb...")
+bpy.ops.export_scene.gltf(
+    filepath='assets/models/villa.glb',
+    export_format='GLB',
+    export_apply=True
+)
+print("Finished exporting assets/models/villa.glb successfully.")
