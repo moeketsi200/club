@@ -330,9 +330,9 @@ for (s_name, t_val, z_base, s_len, s_depth, s_height, shift_y, has_pool) in SIX_
         ex = bx + (side * (s_len * 0.5 - 0.35) * math.cos(rot_z))
         ey = by + (side * (s_len * 0.5 - 0.35) * math.sin(rot_z))
         
-        # Door portal dimensions
+        # Door portal dimensions (standardized 3.10m clear height so avatars with hats/wearables fit comfortably)
         door_w = 1.40
-        door_h = 2.60
+        door_h = 3.10
         
         # Calculate precise aligned door position along the wall (s is signed distance along wall from center (ex, ey))
         if s_name == "Suite_03_SkyBridge":
@@ -513,8 +513,8 @@ w_cy = -1.60
 w_len = 1.60
 w_w = 2.00
 w_fl_z = 7.15
-w_rf_z = 9.95
-w_h = w_rf_z - w_fl_z - 0.25 # 2.55m clear height
+w_rf_z = 10.45
+w_h = w_rf_z - w_fl_z - 0.25 # 3.05m clear height
 
 # Walkable Travertine Marble Floor Slab
 bpy.ops.mesh.primitive_cube_add(size=1.0, location=(w_cx, w_cy, w_fl_z))
@@ -950,19 +950,19 @@ for side_x, side_tag, side_dir in [(-5.8, "West", -1), (5.8, "East", 1)]:
     bpy.ops.object.transform_apply(scale=True)
     w_rear.data.materials.append(mat_stone)
 
-    # Open Bronze Portal Frame to Wing (Lintel and Jambs, fully open to walk through)
-    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, 4.8, 5.5))
+    # Open Bronze Portal Frame to Wing (Standardized 3.15m clear height, enclosing wall void up to ceiling)
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, 4.8, 5.875))
     w_lintel = bpy.context.active_object
     w_lintel.name = f"Reception_DoorLintel_To_{side_tag}_Wing"
-    w_lintel.scale = (0.45, 1.8, 0.2)
+    w_lintel.scale = (0.45, 1.8, 0.45) # Y: [5.65, 6.10]
     bpy.ops.object.transform_apply(scale=True)
     w_lintel.data.materials.append(mat_bronze)
 
     for y_jamb in [3.95, 5.65]:
-        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, y_jamb, 3.9))
+        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, y_jamb, 4.025))
         w_jamb = bpy.context.active_object
         w_jamb.name = f"Reception_DoorJamb_To_{side_tag}_Wing_{y_jamb}"
-        w_jamb.scale = (0.45, 0.12, 3.0)
+        w_jamb.scale = (0.45, 0.12, 3.25) # Y: [2.40, 5.65]
         bpy.ops.object.transform_apply(scale=True)
         w_jamb.data.materials.append(mat_bronze)
 
@@ -976,20 +976,20 @@ for side_x, side_tag, side_dir in [(-5.8, "West", -1), (5.8, "East", 1)]:
     bpy.ops.object.transform_apply(scale=True)
     c_fl.data.materials.append(mat_stone)
 
-    # Roof
-    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(corr_center_x, 4.8, 5.6))
+    # Roof (3.15m clear height)
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(corr_center_x, 4.8, 5.75))
     c_rf = bpy.context.active_object
     c_rf.name = f"Corridor_Roof_{side_tag}"
-    c_rf.scale = (3.2, 2.2, 0.2)
+    c_rf.scale = (3.2, 2.2, 0.2) # Y: [5.65, 5.85]
     bpy.ops.object.transform_apply(scale=True)
     c_rf.data.materials.append(mat_stone)
 
     # Glass Walls
     for y_off in [3.8, 5.8]:
-        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(corr_center_x, y_off, 4.0))
+        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(corr_center_x, y_off, 4.10))
         c_gw = bpy.context.active_object
         c_gw.name = f"Corridor_Glass_{side_tag}_{y_off}"
-        c_gw.scale = (3.0, 0.08, 2.9)
+        c_gw.scale = (3.0, 0.08, 3.1) # Y: [2.55, 5.65]
         bpy.ops.object.transform_apply(scale=True)
         c_gw.data.materials.append(mat_glass)
 

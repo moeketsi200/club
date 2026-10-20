@@ -53,16 +53,16 @@ export function main() {
     Billboard.create(s, { billboardMode: BillboardMode.BM_Y })
   }
 
-  // Hallway signs matching rotated wings
-  createHallSign(Vector3.create(37.8, 5.0, 20.8), 'EAST WING ▶\n(SUITES 4, 5 & 6)')
-  createHallSign(Vector3.create(26.2, 5.0, 20.8), '◀ WEST WING\n(SUITES 1 & 2)')
-  createHallSign(Vector3.create(32.0, 5.8, 18.2), '▲ SKYBRIDGE PENTHOUSE ▲\n(SUITE 3 - GRAND STAIRS)')
+  // Hallway signs positioned above 3.10m tall doorway portals
+  createHallSign(Vector3.create(37.8, 5.85, 20.8), 'EAST WING ▶\n(SUITES 4, 5 & 6)')
+  createHallSign(Vector3.create(26.2, 5.85, 20.8), '◀ WEST WING\n(SUITES 1 & 2)')
+  createHallSign(Vector3.create(32.0, 6.20, 18.2), '▲ SKYBRIDGE PENTHOUSE ▲\n(SUITE 3 - GRAND STAIRS)')
 
   // 3. Sliding Doors Architecture (Facing FRONT STEPS at Z = 23.8)
   const DOOR_Z = 23.8
   const FLOOR_Y = 2.5
-  const DOOR_HEIGHT = 3.05
-  const DOOR_CENTER_Y = FLOOR_Y + DOOR_HEIGHT * 0.5 // 4.025
+  const DOOR_HEIGHT = 3.10
+  const DOOR_CENTER_Y = FLOOR_Y + DOOR_HEIGHT * 0.5 // 4.05
   const PANEL_WIDTH = 1.68
   const PANEL_THICKNESS = 0.08
 
