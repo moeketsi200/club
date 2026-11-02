@@ -2,8 +2,8 @@
   "ecs7": true,
   "runtimeVersion": "7",
   "display": {
-    "title": "Architectural Villa Complex",
-    "description": "Architectural Villa with 6 Interlocking Suites & SkyBridge",
+    "title": "✦ THE RESORT & SKYLINE CLUB ✦",
+    "description": "Architectural Villa & High-Tech Rooftop Nightclub with DJ Stage, Neon Dancefloor, VIP Lounge, Cocktail Bar & 16-Parcel Estate",
     "navmapThumbnail": "images/scene-thumbnail.png",
     "favicon": "favicon_asset"
   },
@@ -13,7 +13,14 @@
     "email": ""
   },
   "main": "bin/index.js",
-  "tags": [],
+  "tags": [
+    "club",
+    "nightclub",
+    "villa",
+    "luxury",
+    "dj",
+    "party"
+  ],
   "scene": {
     "parcels": [
       "0,0",
@@ -23,7 +30,15 @@
       "0,1",
       "1,1",
       "2,1",
-      "3,1"
+      "3,1",
+      "0,2",
+      "1,2",
+      "2,2",
+      "3,2",
+      "0,3",
+      "1,3",
+      "2,3",
+      "3,3"
     ],
     "base": "0,0"
   },
@@ -41,13 +56,13 @@
           1
         ],
         "z": [
-          30.0,
-          31.0
+          50.0,
+          51.0
         ]
       },
       "cameraTarget": {
         "x": 32,
-        "y": 3.5,
+        "y": 7.0,
         "z": 23.8
       }
     }

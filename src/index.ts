@@ -15,10 +15,18 @@ import {
 } from '@dcl/sdk/ecs'
 import { Vector3, Color4, Color3, Quaternion } from '@dcl/sdk/math'
 import { createElevator } from './elevator'
+import { setupRooftopClub } from './rooftopClub'
+import { setupEstateGrounds } from './estateGrounds'
 
 export function main() {
   // Initialize Panoramic Glass Elevator for Suites 1 & 2
   createElevator()
+
+  // Initialize Expanded 16-Parcel Estate Grounds & Grand Arrival Boulevard
+  setupEstateGrounds()
+
+  // Initialize Rooftop Skyline Nightclub (DJ Booth, Stage, Neon Dancefloor, VIP Lounge & Bar)
+  setupRooftopClub()
 
   // 1. Villa Architectural Model (Centered at (32, 0, 16))
   const villa = engine.addEntity()
@@ -37,7 +45,7 @@ export function main() {
     position: Vector3.create(32, 6.4, 23.9)
   })
   TextShape.create(sign, {
-    text: '✦ THE RESORT CLUB ✦\n[ AUTOMATIC SLIDING DOORS ]',
+    text: '✦ THE RESORT & SKYLINE CLUB ✦\n[ AUTOMATIC SLIDING DOORS ]',
     fontSize: 2.2,
     textColor: Color4.create(1.0, 0.88, 0.55, 1)
   })
@@ -61,6 +69,7 @@ export function main() {
   createHallSign(Vector3.create(37.8, 5.85, 20.8), 'EAST WING ▶\n(SUITES 4, 5 & 6)')
   createHallSign(Vector3.create(26.2, 5.85, 20.8), '◀ WEST WING\n(SUITES 1 & 2)')
   createHallSign(Vector3.create(32.0, 6.20, 18.2), '▲ SKYBRIDGE PENTHOUSE ▲\n(SUITE 3 - GRAND STAIRS)')
+  createHallSign(Vector3.create(32.0, 5.85, 20.6), '▲ ROOFTOP SKYLINE NIGHTCLUB ▲\n(EXPRESS SKY LIFT)')
 
   // 3. Sliding Doors Architecture (Facing FRONT STEPS at Z = 23.8)
   const DOOR_Z = 23.8
