@@ -105,6 +105,23 @@ for (s_name, t_val, z_base, s_len, s_depth, s_height, shift_y, has_pool) in SIX_
     by = cy + ny * shift_y
     center_z = z_base + (s_height * 0.5)
 
+    # Ground the two lowest wing suites with limestone piers below their
+    # outside corners; their floors begin 2.5m above the estate ground.
+    if s_name in ("Suite_01_West_Lower", "Suite_04_East_Lower"):
+        for along_len in [-(s_len * 0.5 - 0.65), s_len * 0.5 - 0.65]:
+            for along_depth in [-(s_depth * 0.5 - 0.65), s_depth * 0.5 - 0.65]:
+                support_x = bx + along_len * math.cos(rot_z) + nx * along_depth
+                support_y = by + along_len * math.sin(rot_z) + ny * along_depth
+                bpy.ops.mesh.primitive_cube_add(
+                    size=1.0,
+                    location=(support_x, support_y, z_base * 0.5)
+                )
+                support = bpy.context.active_object
+                support.name = f"{s_name}_Ground_Support_{along_len}_{along_depth}"
+                support.scale = (0.72, 0.72, z_base)
+                bpy.ops.object.transform_apply(scale=True)
+                support.data.materials.append(mat_stone)
+
     # 1. Solid Top & Bottom Slabs (Caps room completely, with open stairwell voids for Suite 3, 5, and 6)
     for z_off, slab_tag in [(0.15, "Floor"), (s_height, "Ceiling")]:
         if s_name == "Suite_03_SkyBridge" and slab_tag == "Floor":
@@ -142,7 +159,7 @@ for (s_name, t_val, z_base, s_len, s_depth, s_height, shift_y, has_pool) in SIX_
             bpy.ops.object.transform_apply(scale=True)
             sl_back.data.materials.append(mat_marble)
         elif s_name == "Suite_05_East_Mid" and slab_tag == "Floor":
-            # East Mid Suite Floor: leaves open stair void for Flight 1 (X = 12.0 to 17.6, Y = 2.72 to 4.70)
+            # East Mid Suite Floor: leaves open stair void for Flight 1 (X = 12.0 to 17.8, Y = 2.72 to 4.70)
             # Front Main Floor (Y = 4.70 to 10.72)
             bpy.ops.mesh.primitive_cube_add(size=1.0, location=(13.175, 7.71, z_base + z_off))
             sl_f5 = bpy.context.active_object
@@ -159,11 +176,11 @@ for (s_name, t_val, z_base, s_len, s_depth, s_height, shift_y, has_pool) in SIX_
             bpy.ops.object.transform_apply(scale=True)
             sl_w5.data.materials.append(mat_marble)
 
-            # East Stair Landing Floor (X = 17.6 to 19.35, Y = 2.72 to 4.70)
-            bpy.ops.mesh.primitive_cube_add(size=1.0, location=(18.475, 3.71, z_base + z_off))
+            # East Stair Landing Floor (X = 17.8 to 19.35, Y = 2.72 to 4.70)
+            bpy.ops.mesh.primitive_cube_add(size=1.0, location=(18.575, 3.71, z_base + z_off))
             sl_e5 = bpy.context.active_object
             sl_e5.name = f"{s_name}_Floor_EastLanding"
-            sl_e5.scale = (1.75, 1.98, 0.3)
+            sl_e5.scale = (1.55, 1.98, 0.3)
             bpy.ops.object.transform_apply(scale=True)
             sl_e5.data.materials.append(mat_marble)
         elif s_name == "Suite_06_East_Upper" and slab_tag == "Floor":
@@ -229,10 +246,10 @@ for (s_name, t_val, z_base, s_len, s_depth, s_height, shift_y, has_pool) in SIX_
             bpy.ops.object.transform_apply(scale=True)
             sl_c4b.data.materials.append(mat_stone)
 
-            bpy.ops.mesh.primitive_cube_add(size=1.0, location=(18.475, 3.71, z_base + z_off))
+            bpy.ops.mesh.primitive_cube_add(size=1.0, location=(18.575, 3.71, z_base + z_off))
             sl_c4c = bpy.context.active_object
             sl_c4c.name = f"{s_name}_Ceiling_EastLanding"
-            sl_c4c.scale = (1.75, 1.98, 0.3)
+            sl_c4c.scale = (1.55, 1.98, 0.3)
             bpy.ops.object.transform_apply(scale=True)
             sl_c4c.data.materials.append(mat_stone)
         else:
@@ -627,9 +644,9 @@ e_light.data.materials.append(mat_glow_gold)
 # -------------------------------------------------------------------------
 # 5B. East Wing Multi-Level Architectural Circulation (Connecting Suites 4, 5, and 6)
 # -------------------------------------------------------------------------
-# Flight 1: Ascends eastward along Y = 4.0 from Suite 4 (Z = 2.50) to Suite 5 (Z = 6.60)
-f1_x_start, f1_z_start = 12.20, 2.50
-f1_x_end, f1_z_end = 17.80, 6.60
+# Flight 1: Ascends eastward between the actual floor tops of Suites 4 and 5.
+f1_x_start, f1_z_start = 12.20, 2.80
+f1_x_end, f1_z_end = 17.80, 6.90
 f1_y = 4.00
 f1_w = 1.20
 f1_rw = f1_w * 0.5
@@ -709,9 +726,9 @@ for y_side, side_tag in [(-1, "South"), (1, "North")]:
     f1_rail.data.materials.append(mat_bronze)
 
 
-# Flight 2: Ascends westward along Y = 5.4 from Suite 5 landing (Z = 6.60) to Suite 6 Penthouse (Z = 10.90)
-f2_x_start, f2_z_start = 17.80, 6.60
-f2_x_end, f2_z_end = 12.20, 10.90
+# Flight 2: Ascends westward between the actual floor tops of Suites 5 and 6.
+f2_x_start, f2_z_start = 17.80, 6.90
+f2_x_end, f2_z_end = 12.00, 11.20
 f2_y = 5.40
 f2_w = 1.20
 f2_rw = f2_w * 0.5
@@ -874,6 +891,45 @@ for p_idx, p_h in enumerate([0.9, 1.8, 2.5]):
     bpy.context.scene.collection.objects.link(p_obj)
     p_obj.data.materials.append(mat_stone)
 
+# Centered exterior stair flight from the arrival boulevard to the reception.
+# The podium tiers are concentric S-curves, so find the outer tier's front
+# edge at the centerline and set the stair run over the exposed podium face.
+def podium_front_edge_y(p_depth):
+    low_t, high_t = 0.0, 0.5
+    for _ in range(40):
+        t = (low_t + high_t) * 0.5
+        cx, cy, rot_z = get_curve_coords(t)
+        edge_x = cx - math.sin(rot_z) * (p_depth * 0.5)
+        if edge_x < 0.0:
+            low_t = t
+        else:
+            high_t = t
+
+    _, edge_y, edge_rot = get_curve_coords((low_t + high_t) * 0.5)
+    return edge_y + math.cos(edge_rot) * (p_depth * 0.5)
+
+
+outer_podium_front_y = podium_front_edge_y(18.0)
+front_stair_count = 16
+front_stair_width = 3.6
+front_stair_start_y = outer_podium_front_y + 2.1
+front_stair_end_y = 7.8
+front_stair_start_height = 0.16
+front_stair_end_height = 2.5
+front_stair_run = (front_stair_start_y - front_stair_end_y) / front_stair_count
+front_stair_rise = (front_stair_end_height - front_stair_start_height) / front_stair_count
+front_stair_tread_depth = front_stair_run + 0.04
+
+for step_idx in range(front_stair_count):
+    step_top = front_stair_start_height + (step_idx + 1) * front_stair_rise
+    step_y = front_stair_start_y - (step_idx + 0.5) * front_stair_run
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0.0, step_y, step_top * 0.5))
+    front_step = bpy.context.active_object
+    front_step.name = f"Front_Entrance_Stair_Step_{step_idx:02d}"
+    front_step.scale = (front_stair_width, front_stair_tread_depth, step_top)
+    bpy.ops.object.transform_apply(scale=True)
+    front_step.data.materials.append(mat_marble)
+
 # Ground Floor Grand Reception Pavilion & Portal (Facing FRONT +Y with Suites & Pools)
 # 1. Floor & Roof Slabs (Centered under SkyBridge, extending forward onto front lawn)
 bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0.0, 5.0, 2.4))
@@ -882,6 +938,20 @@ lobby_floor.name = "Reception_Floor_Slab"
 lobby_floor.scale = (12.2, 6.2, 0.25)
 bpy.ops.object.transform_apply(scale=True)
 lobby_floor.data.materials.append(mat_stone)
+
+# Limestone piers carry the raised reception floor to the ground at its outer
+# corners while leaving the centered entry staircase and side portals clear.
+for support_x in [-5.15, 5.15]:
+    for support_y in [2.25, 7.45]:
+        bpy.ops.mesh.primitive_cube_add(
+            size=1.0,
+            location=(support_x, support_y, 2.275 * 0.5)
+        )
+        support = bpy.context.active_object
+        support.name = f"Reception_Ground_Support_{support_x}_{support_y}"
+        support.scale = (0.72, 0.72, 2.275)
+        bpy.ops.object.transform_apply(scale=True)
+        support.data.materials.append(mat_stone)
 
 bpy.ops.mesh.primitive_cube_add(size=1.0, location=(0.0, 5.0, 6.2))
 lobby_roof = bpy.context.active_object
@@ -976,23 +1046,53 @@ for side_x, side_tag, side_dir in [(-5.8, "West", -1), (5.8, "East", 1)]:
     bpy.ops.object.transform_apply(scale=True)
     c_rf.data.materials.append(mat_stone)
 
-    # Glass Walls
+    # Glass Walls. Keep a reveal beyond the reception wall, and open the east
+    # south pane where the Suite 4 doorway crosses the corridor wall.
+    corridor_inner_edge = side_x + (side_dir * 0.45)
+    corridor_outer_edge = side_x + (side_dir * 3.10)
+    corridor_min_x = min(corridor_inner_edge, corridor_outer_edge)
+    corridor_max_x = max(corridor_inner_edge, corridor_outer_edge)
+
+    suite4_cx, _, suite4_rot = get_curve_coords(0.56)
+    suite4_nx = -math.sin(suite4_rot)
+    suite4_wall_x = suite4_cx - (11.8 * 0.5 - 0.35) * math.cos(suite4_rot)
+    suite4_door_offset = -7.6 * 0.15
+    suite4_door_x = suite4_wall_x + suite4_nx * suite4_door_offset
+
     for y_off in [3.8, 5.8]:
-        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(corr_center_x, y_off, 4.10))
-        c_gw = bpy.context.active_object
-        c_gw.name = f"Corridor_Glass_{side_tag}_{y_off}"
-        c_gw.scale = (3.0, 0.08, 3.1) # Y: [2.55, 5.65]
-        bpy.ops.object.transform_apply(scale=True)
-        c_gw.data.materials.append(mat_glass)
+        if side_tag == "East" and y_off == 3.8:
+            opening_half_width = (1.40 + 0.20) * 0.5
+            opening_min_x = suite4_door_x - opening_half_width
+            opening_max_x = suite4_door_x + opening_half_width
+            glass_segments = [
+                (corridor_min_x, opening_min_x),
+                (opening_max_x, corridor_max_x)
+            ]
+        else:
+            glass_segments = [(corridor_min_x, corridor_max_x)]
 
-# Grand Architectural Staircase to Center SkyBridge Suite 3 (Ascending gently from Z=2.5 to Z=7.0)
+        for segment_index, (segment_min_x, segment_max_x) in enumerate(glass_segments):
+            segment_width = segment_max_x - segment_min_x
+            if segment_width <= 0.1:
+                continue
+            bpy.ops.mesh.primitive_cube_add(
+                size=1.0,
+                location=((segment_min_x + segment_max_x) * 0.5, y_off, 4.10)
+            )
+            c_gw = bpy.context.active_object
+            c_gw.name = f"Corridor_Glass_{side_tag}_{y_off}_{segment_index}"
+            c_gw.scale = (segment_width, 0.08, 3.1) # Y: [2.55, 5.65]
+            bpy.ops.object.transform_apply(scale=True)
+            c_gw.data.materials.append(mat_glass)
+
+# Grand Architectural Staircase to Center SkyBridge Suite 3 (Ascending from Z=2.5 to the floor top at Z=7.3)
 stair_start_y = 2.5
-stair_end_y = -3.5
+stair_end_y = -3.3
 stair_start_z = 2.5
-stair_end_z = 7.0
+stair_end_z = 7.3
 
-stair_slope_angle = -math.atan(4.5 / 6.0) # -36.87 degrees, comfortable walkable slope
-stair_length = math.hypot(-6.0, 4.5)     # 7.50m
+stair_slope_angle = -math.atan2(stair_end_z - stair_start_z, stair_start_y - stair_end_y)
+stair_length = math.hypot(stair_end_y - stair_start_y, stair_end_z - stair_start_z)
 stair_mid_y = (stair_start_y + stair_end_y) * 0.5  # -0.50
 stair_mid_z = (stair_start_z + stair_end_z) * 0.5  # 4.75
 
@@ -1360,9 +1460,25 @@ for obj in bpy.data.objects:
 # 9. Export Production GLB Model
 # -------------------------------------------------------------------------
 print("Exporting assets/models/villa.glb...")
+depsgraph = bpy.context.evaluated_depsgraph_get()
+triangle_count = 0
+for obj in bpy.context.scene.objects:
+    if obj.type != 'MESH':
+        continue
+    evaluated = obj.evaluated_get(depsgraph)
+    mesh = evaluated.to_mesh()
+    mesh.calc_loop_triangles()
+    triangle_count += len(mesh.loop_triangles)
+    evaluated.to_mesh_clear()
+print(f"Villa model triangle count: {triangle_count}")
+if triangle_count > 160000:
+    raise RuntimeError(f"Villa model exceeds the 16-parcel triangle budget: {triangle_count} > 160000")
+
 bpy.ops.export_scene.gltf(
     filepath='assets/models/villa.glb',
     export_format='GLB',
-    export_apply=True
+    export_apply=True,
+    export_cameras=False,
+    export_lights=False
 )
 print("Finished exporting assets/models/villa.glb successfully.")

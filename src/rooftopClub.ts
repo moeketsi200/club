@@ -102,25 +102,87 @@ export function setupRooftopClub() {
   const DECK_CENTER_Z = 16.0
   const DECK_WIDTH_X = 25.0
   const DECK_DEPTH_Z = 14.8
+  const STAIR_STEPS = 16
+  const STAIR_START_X = 24.4
+  const STAIR_START_Y = 7.15
+  const STAIR_START_Z = 13.6
+  const STAIR_END_X = 21.0
+  const STAIR_END_Y = ROOF_Y
+  const STAIR_END_Z = 13.6
+  const ROOF_MIN_X = DECK_CENTER_X - DECK_WIDTH_X * 0.5
+  const ROOF_MAX_X = DECK_CENTER_X + DECK_WIDTH_X * 0.5
+  const ROOF_MIN_Z = DECK_CENTER_Z - DECK_DEPTH_Z * 0.5
+  const ROOF_MAX_Z = DECK_CENTER_Z + DECK_DEPTH_Z * 0.5
+  const STAIR_OPENING_MIN_X = STAIR_END_X - 0.16
+  const STAIR_OPENING_MAX_X = STAIR_START_X + 0.16
+  const STAIR_OPENING_MIN_Z = STAIR_START_Z - 1.05
+  const STAIR_OPENING_MAX_Z = STAIR_START_Z + 1.05
 
-  // Main Walkable Rooftop Obsidian Slab
-  const roofDeck = engine.addEntity()
-  Transform.create(roofDeck, {
-    position: Vector3.create(DECK_CENTER_X, ROOF_Y, DECK_CENTER_Z),
-    scale: Vector3.create(DECK_WIDTH_X, 0.35, DECK_DEPTH_Z)
-  })
-  MeshRenderer.setBox(roofDeck)
-  MeshCollider.setBox(roofDeck)
-  Material.setPbrMaterial(roofDeck, obsidianDeckMat)
+  // Split the rooftop slab around the stair run. The opening follows the tread
+  // footprint and leaves the upper end flush with the deck landing.
+  const roofSections = [
+    { minX: ROOF_MIN_X, maxX: STAIR_OPENING_MIN_X, minZ: ROOF_MIN_Z, maxZ: ROOF_MAX_Z },
+    { minX: STAIR_OPENING_MAX_X, maxX: ROOF_MAX_X, minZ: ROOF_MIN_Z, maxZ: ROOF_MAX_Z },
+    {
+      minX: STAIR_OPENING_MIN_X,
+      maxX: STAIR_OPENING_MAX_X,
+      minZ: ROOF_MIN_Z,
+      maxZ: STAIR_OPENING_MIN_Z
+    },
+    {
+      minX: STAIR_OPENING_MIN_X,
+      maxX: STAIR_OPENING_MAX_X,
+      minZ: STAIR_OPENING_MAX_Z,
+      maxZ: ROOF_MAX_Z
+    }
+  ]
 
-  // Gold Perimeter Trim
-  const deckTrim = engine.addEntity()
-  Transform.create(deckTrim, {
-    position: Vector3.create(DECK_CENTER_X, ROOF_Y - 0.02, DECK_CENTER_Z),
-    scale: Vector3.create(DECK_WIDTH_X + 0.12, 0.36, DECK_DEPTH_Z + 0.12)
+  roofSections.forEach((section) => {
+    const width = section.maxX - section.minX
+    const depth = section.maxZ - section.minZ
+    if (width <= 0 || depth <= 0) return
+    const roofSection = engine.addEntity()
+    Transform.create(roofSection, {
+      position: Vector3.create((section.minX + section.maxX) * 0.5, ROOF_Y, (section.minZ + section.maxZ) * 0.5),
+      scale: Vector3.create(width, 0.35, depth)
+    })
+    MeshRenderer.setBox(roofSection)
+    MeshCollider.setBox(roofSection)
+    Material.setPbrMaterial(roofSection, obsidianDeckMat)
   })
-  MeshRenderer.setBox(deckTrim)
-  Material.setPbrMaterial(deckTrim, polishedGoldMat)
+
+  const createDeckTrim = (position: Vector3, scale: Vector3) => {
+    const trim = engine.addEntity()
+    Transform.create(trim, { position, scale })
+    MeshRenderer.setBox(trim)
+    Material.setPbrMaterial(trim, polishedGoldMat)
+  }
+
+  // Gold outer edge and stairwell edge trim; no solid trim spans the opening.
+  createDeckTrim(Vector3.create(DECK_CENTER_X, ROOF_Y, ROOF_MIN_Z), Vector3.create(DECK_WIDTH_X + 0.12, 0.36, 0.08))
+  createDeckTrim(Vector3.create(DECK_CENTER_X, ROOF_Y, ROOF_MAX_Z), Vector3.create(DECK_WIDTH_X + 0.12, 0.36, 0.08))
+  createDeckTrim(Vector3.create(ROOF_MIN_X, ROOF_Y, DECK_CENTER_Z), Vector3.create(0.08, 0.36, DECK_DEPTH_Z))
+  createDeckTrim(Vector3.create(ROOF_MAX_X, ROOF_Y, DECK_CENTER_Z), Vector3.create(0.08, 0.36, DECK_DEPTH_Z))
+  const stairOpeningCenterX = (STAIR_OPENING_MIN_X + STAIR_OPENING_MAX_X) * 0.5
+  const stairOpeningWidth = STAIR_OPENING_MAX_X - STAIR_OPENING_MIN_X
+  const stairOpeningDepth = STAIR_OPENING_MAX_Z - STAIR_OPENING_MIN_Z
+  const stairOpeningTrimY = ROOF_Y + 0.16
+  createDeckTrim(
+    Vector3.create(stairOpeningCenterX, stairOpeningTrimY, STAIR_OPENING_MIN_Z),
+    Vector3.create(stairOpeningWidth, 0.06, 0.08)
+  )
+  createDeckTrim(
+    Vector3.create(stairOpeningCenterX, stairOpeningTrimY, STAIR_OPENING_MAX_Z),
+    Vector3.create(stairOpeningWidth, 0.06, 0.08)
+  )
+  createDeckTrim(
+    Vector3.create(STAIR_OPENING_MIN_X, stairOpeningTrimY, STAIR_START_Z),
+    Vector3.create(0.08, 0.06, stairOpeningDepth)
+  )
+  createDeckTrim(
+    Vector3.create(STAIR_OPENING_MAX_X, stairOpeningTrimY, STAIR_START_Z),
+    Vector3.create(0.08, 0.06, stairOpeningDepth)
+  )
 
   // Frameless Smoked Glass Balustrades with Bronze Handrail
   const createRailing = (pos: Vector3, scale: Vector3) => {
@@ -814,12 +876,37 @@ export function setupRooftopClub() {
 
   // Glass Lift Column Shaft
   const liftShaft = engine.addEntity()
+  const liftShaftHeight = SKY_CLUB_Y - GROUND_LOBBY_Y + 3.2
+  const liftShaftCenterY = (GROUND_LOBBY_Y + SKY_CLUB_Y + 3.0) * 0.5
   Transform.create(liftShaft, {
-    position: Vector3.create(LIFT_X, (GROUND_LOBBY_Y + SKY_CLUB_Y + 3.0) * 0.5, LIFT_Z),
-    scale: Vector3.create(2.2, SKY_CLUB_Y - GROUND_LOBBY_Y + 3.2, 2.2)
+    position: Vector3.create(LIFT_X, liftShaftCenterY, LIFT_Z),
+    scale: Vector3.create(2.2, liftShaftHeight, 2.2)
   })
   MeshRenderer.setCylinder(liftShaft)
   Material.setPbrMaterial(liftShaft, smokedGlassMat)
+
+  // Three invisible collider panels make the glass shaft solid while keeping
+  // its +Z lobby entrance open for the call station and player teleport.
+  const addLiftWallCollider = (position: Vector3, scale: Vector3) => {
+    const collider = engine.addEntity()
+    Transform.create(collider, { position, scale })
+    MeshCollider.setBox(collider)
+  }
+  const liftRadius = 1.1
+  const liftWallThickness = 0.12
+  const liftWallInset = liftRadius - liftWallThickness * 0.5
+  addLiftWallCollider(
+    Vector3.create(LIFT_X, liftShaftCenterY, LIFT_Z - liftWallInset),
+    Vector3.create(2.2, liftShaftHeight, liftWallThickness)
+  )
+  addLiftWallCollider(
+    Vector3.create(LIFT_X - liftWallInset, liftShaftCenterY, LIFT_Z),
+    Vector3.create(liftWallThickness, liftShaftHeight, 2.2 - liftWallThickness)
+  )
+  addLiftWallCollider(
+    Vector3.create(LIFT_X + liftWallInset, liftShaftCenterY, LIFT_Z),
+    Vector3.create(liftWallThickness, liftShaftHeight, 2.2 - liftWallThickness)
+  )
 
   // Ground Lobby Call Station
   const groundCallPedestal = engine.addEntity()
@@ -841,11 +928,11 @@ export function setupRooftopClub() {
 
   const groundCallSign = engine.addEntity()
   Transform.create(groundCallSign, {
-    position: Vector3.create(LIFT_X, GROUND_LOBBY_Y + 1.85, LIFT_Z + 1.25)
+    position: Vector3.create(LIFT_X, GROUND_LOBBY_Y + 1.85, LIFT_Z + 1.55)
   })
   TextShape.create(groundCallSign, {
     text: '▲ EXPRESS SKY LIFT ▲\n[ CLICK TO ENTER ROOFTOP CLUB ]',
-    fontSize: 1.6,
+    fontSize: 1.05,
     textColor: Color4.create(0.1, 0.9, 1.0, 1)
   })
   Billboard.create(groundCallSign, { billboardMode: BillboardMode.BM_Y })
@@ -884,11 +971,11 @@ export function setupRooftopClub() {
 
   const roofCallSign = engine.addEntity()
   Transform.create(roofCallSign, {
-    position: Vector3.create(LIFT_X, SKY_CLUB_Y + 1.85, LIFT_Z + 1.25)
+    position: Vector3.create(LIFT_X, SKY_CLUB_Y + 1.85, LIFT_Z + 1.55)
   })
   TextShape.create(roofCallSign, {
     text: '▼ EXPRESS SKY LIFT ▼\n[ CLICK TO RETURN TO VILLA RECEPTION ]',
-    fontSize: 1.6,
+    fontSize: 1.05,
     textColor: Color4.create(1.0, 0.85, 0.35, 1)
   })
   Billboard.create(roofCallSign, { billboardMode: BillboardMode.BM_Y })
@@ -912,14 +999,6 @@ export function setupRooftopClub() {
   // ---------------------------------------------------------------------------
   // Suite 3 Floor at Y = 7.15, ascending to Rooftop Deck at Y = 11.20 (4.05m rise)
   // Steps run from X = 23.5 up eastward to X = 20.0, or along Z = 13.0
-  const STAIR_STEPS = 16
-  const STAIR_START_X = 23.8
-  const STAIR_START_Y = 7.15
-  const STAIR_START_Z = 13.6
-  const STAIR_END_X = 20.4
-  const STAIR_END_Y = ROOF_Y
-  const STAIR_END_Z = 13.6
-
   for (let s = 0; s <= STAIR_STEPS; s++) {
     const frac = s / STAIR_STEPS
     const stepX = STAIR_START_X + (STAIR_END_X - STAIR_START_X) * frac

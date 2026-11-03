@@ -39,6 +39,38 @@ export function main() {
     position: Vector3.create(32, 0, 16)
   })
 
+  // Explicit physics boxes on the upper suite's two front glazing panels.
+  // The villa GLB already collides on visible meshes; these simple boxes keep
+  // the curtain wall solid even when transparent GLB surfaces are skipped.
+  // The villa's final 180-degree turn mirrors source-local X in the exported GLB.
+  const suite6T = 0.58
+  const suite6Rotation = Math.atan(
+    (Math.PI * 0.85 * 4.6 * Math.cos(suite6T * Math.PI * 0.85) + 1.2) / 22
+  )
+  const suite6CurveX = suite6T * 22
+  const suite6CurveY = Math.sin(suite6T * Math.PI * 0.85) * 4.6 + suite6T * 1.2
+  const suite6NormalX = -Math.sin(suite6Rotation)
+  const suite6NormalY = Math.cos(suite6Rotation)
+  const suite6BaseX = suite6CurveX + suite6NormalX * -0.5
+  const suite6BaseY = suite6CurveY + suite6NormalY * -0.5
+  const suite6PanelLength = (11.2 * 0.92 - 2.4) * 0.5
+  const suite6PanelHeight = 3.8 * 0.84
+
+  for (const panelSide of [-1, 1]) {
+    const panelOffset = panelSide * (suite6PanelLength * 0.5 + 2.4 * 0.5)
+    const panelX =
+      suite6BaseX + panelOffset * Math.cos(suite6Rotation) + suite6NormalX * (7.4 * 0.44)
+    const panelZ =
+      suite6BaseY + panelOffset * Math.sin(suite6Rotation) + suite6NormalY * (7.4 * 0.44)
+    const windowCollider = engine.addEntity()
+    Transform.create(windowCollider, {
+      position: Vector3.create(32 - panelX, 10.9 + 3.8 * 0.5, 16 + panelZ),
+      rotation: Quaternion.fromEulerDegrees(0, (-suite6Rotation * 180) / Math.PI, 0),
+      scale: Vector3.create(suite6PanelLength, suite6PanelHeight, 0.14)
+    })
+    MeshCollider.setBox(windowCollider)
+  }
+
   // 2. Grand Entrance Floating Title Sign (Facing FRONT STEPS at Z = 23.9)
   const sign = engine.addEntity()
   Transform.create(sign, {
@@ -66,8 +98,8 @@ export function main() {
   }
 
   // Hallway signs positioned above 3.10m tall doorway portals
-  createHallSign(Vector3.create(37.8, 5.85, 20.8), 'EAST WING ▶\n(SUITES 4, 5 & 6)')
-  createHallSign(Vector3.create(26.2, 5.85, 20.8), '◀ WEST WING\n(SUITES 1 & 2)')
+  createHallSign(Vector3.create(37.8, 5.85, 21.25), 'EAST WING ▶\n(SUITES 4, 5 & 6)')
+  createHallSign(Vector3.create(26.2, 5.85, 21.25), '◀ WEST WING\n(SUITES 1 & 2)')
   createHallSign(Vector3.create(32.0, 6.20, 18.2), '▲ SKYBRIDGE PENTHOUSE ▲\n(SUITE 3 - GRAND STAIRS)')
   createHallSign(Vector3.create(32.0, 5.85, 20.6), '▲ ROOFTOP SKYLINE NIGHTCLUB ▲\n(EXPRESS SKY LIFT)')
 

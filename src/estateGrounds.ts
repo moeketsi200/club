@@ -304,11 +304,11 @@ export function setupEstateGrounds() {
   // Grand Entrance Title Sign
   const monumentSign = engine.addEntity()
   Transform.create(monumentSign, {
-    position: Vector3.create(MONUMENT_X, 4.0, MONUMENT_Z)
+    position: Vector3.create(MONUMENT_X, 4.0, MONUMENT_Z + 0.65)
   })
   TextShape.create(monumentSign, {
     text: '✦ THE RESORT & SKYLINE CLUB ✦\n[ WELCOME TO THE 16-PARCEL PRIVATE ESTATE ]',
-    fontSize: 2.4,
+    fontSize: 1.35,
     textColor: Color4.create(1.0, 0.90, 0.50, 1)
   })
   Billboard.create(monumentSign, {
