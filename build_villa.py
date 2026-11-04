@@ -1012,19 +1012,19 @@ for side_x, side_tag, side_dir in [(-5.8, "West", -1), (5.8, "East", 1)]:
     bpy.ops.object.transform_apply(scale=True)
     w_rear.data.materials.append(mat_stone)
 
-    # Open Bronze Portal Frame to Wing (Standardized 3.15m clear height, enclosing wall void up to ceiling)
-    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, 4.8, 5.875))
+    # Limestone Wall Infill above Wing Doorway up to Ceiling Slab
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, 4.8, 5.85))
     w_lintel = bpy.context.active_object
     w_lintel.name = f"Reception_DoorLintel_To_{side_tag}_Wing"
-    w_lintel.scale = (0.45, 1.8, 0.45) # Y: [5.65, 6.10]
+    w_lintel.scale = (0.40, 1.8, 0.40) # Z: [5.65, 6.05]
     bpy.ops.object.transform_apply(scale=True)
-    w_lintel.data.materials.append(mat_bronze)
+    w_lintel.data.materials.append(mat_stone)
 
     for y_jamb in [3.95, 5.65]:
         bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, y_jamb, 4.025))
         w_jamb = bpy.context.active_object
         w_jamb.name = f"Reception_DoorJamb_To_{side_tag}_Wing_{y_jamb}"
-        w_jamb.scale = (0.45, 0.12, 3.25) # Y: [2.40, 5.65]
+        w_jamb.scale = (0.45, 0.12, 3.25) # Z: [2.40, 5.65]
         bpy.ops.object.transform_apply(scale=True)
         w_jamb.data.materials.append(mat_bronze)
 
@@ -1038,11 +1038,12 @@ for side_x, side_tag, side_dir in [(-5.8, "West", -1), (5.8, "East", 1)]:
     bpy.ops.object.transform_apply(scale=True)
     c_fl.data.materials.append(mat_stone)
 
-    # Roof (3.15m clear height)
-    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(corr_center_x, 4.8, 5.75))
+    # Roof (terminates flush at outer face of reception wall X = +/-6.0 to avoid projecting into doorway)
+    corr_roof_center_x = side_x + (side_dir * 1.7)
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(corr_roof_center_x, 4.8, 5.75))
     c_rf = bpy.context.active_object
     c_rf.name = f"Corridor_Roof_{side_tag}"
-    c_rf.scale = (3.2, 2.2, 0.2) # Y: [5.65, 5.85]
+    c_rf.scale = (3.0, 2.2, 0.2) # Z: [5.65, 5.85], X: from outer wall face 6.0 outward to 9.0
     bpy.ops.object.transform_apply(scale=True)
     c_rf.data.materials.append(mat_stone)
 

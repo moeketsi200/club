@@ -578,16 +578,17 @@ export function setupRooftopClub() {
 
   // ---------------------------------------------------------------------------
   // 5. VIP Party Lounge (West Terrace Deck: X = 23 to 27)
+  // Positioned with ample clearance from the Suite 6 Penthouse doorway (Z = 18.6 - 20.1)
   // ---------------------------------------------------------------------------
   const VIP_CENTER_X = 24.2
-  const VIP_CENTER_Z = 16.5
+  const VIP_CENTER_Z = 14.2
   const VIP_FLOOR_Y = ROOF_Y + 0.15
 
   // Elevated VIP Marble Dais
   const vipDais = engine.addEntity()
   Transform.create(vipDais, {
     position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y, VIP_CENTER_Z),
-    scale: Vector3.create(6.8, 0.22, 7.5)
+    scale: Vector3.create(5.8, 0.22, 5.0)
   })
   MeshRenderer.setBox(vipDais)
   MeshCollider.setBox(vipDais)
@@ -597,7 +598,7 @@ export function setupRooftopClub() {
   const vipDaisTrim = engine.addEntity()
   Transform.create(vipDaisTrim, {
     position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y + 0.05, VIP_CENTER_Z),
-    scale: Vector3.create(6.9, 0.06, 7.6)
+    scale: Vector3.create(5.9, 0.06, 5.1)
   })
   MeshRenderer.setBox(vipDaisTrim)
   Material.setPbrMaterial(vipDaisTrim, polishedGoldMat)
@@ -605,8 +606,8 @@ export function setupRooftopClub() {
   // Semicircular VIP Velvet Booth (North Curve)
   const boothBackNorth = engine.addEntity()
   Transform.create(boothBackNorth, {
-    position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y + 0.65, VIP_CENTER_Z - 2.6),
-    scale: Vector3.create(4.6, 0.90, 0.65)
+    position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y + 0.65, VIP_CENTER_Z - 1.9),
+    scale: Vector3.create(4.2, 0.90, 0.55)
   })
   MeshRenderer.setBox(boothBackNorth)
   MeshCollider.setBox(boothBackNorth)
@@ -614,18 +615,18 @@ export function setupRooftopClub() {
 
   const boothSeatNorth = engine.addEntity()
   Transform.create(boothSeatNorth, {
-    position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y + 0.25, VIP_CENTER_Z - 2.1),
-    scale: Vector3.create(4.6, 0.45, 0.85)
+    position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y + 0.25, VIP_CENTER_Z - 1.5),
+    scale: Vector3.create(4.2, 0.45, 0.70)
   })
   MeshRenderer.setBox(boothSeatNorth)
   MeshCollider.setBox(boothSeatNorth)
   Material.setPbrMaterial(boothSeatNorth, crimsonVelvetMat)
 
-  // Semicircular VIP Velvet Booth (South Curve)
+  // Semicircular VIP Velvet Booth (South Curve - leaves 2.2m open walkway to Suite 6 Penthouse door)
   const boothBackSouth = engine.addEntity()
   Transform.create(boothBackSouth, {
-    position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y + 0.65, VIP_CENTER_Z + 2.6),
-    scale: Vector3.create(4.6, 0.90, 0.65)
+    position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y + 0.65, VIP_CENTER_Z + 1.9),
+    scale: Vector3.create(4.2, 0.90, 0.55)
   })
   MeshRenderer.setBox(boothBackSouth)
   MeshCollider.setBox(boothBackSouth)
@@ -633,8 +634,8 @@ export function setupRooftopClub() {
 
   const boothSeatSouth = engine.addEntity()
   Transform.create(boothSeatSouth, {
-    position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y + 0.25, VIP_CENTER_Z + 2.1),
-    scale: Vector3.create(4.6, 0.45, 0.85)
+    position: Vector3.create(VIP_CENTER_X, VIP_FLOOR_Y + 0.25, VIP_CENTER_Z + 1.5),
+    scale: Vector3.create(4.2, 0.45, 0.70)
   })
   MeshRenderer.setBox(boothSeatSouth)
   MeshCollider.setBox(boothSeatSouth)
@@ -680,16 +681,16 @@ export function setupRooftopClub() {
     Material.setPbrMaterial(bottle, neonAmberMat)
   }
 
-  createCocktailTable(Vector3.create(VIP_CENTER_X - 1.2, VIP_FLOOR_Y, VIP_CENTER_Z - 1.2))
-  createCocktailTable(Vector3.create(VIP_CENTER_X + 1.2, VIP_FLOOR_Y, VIP_CENTER_Z - 1.2))
-  createCocktailTable(Vector3.create(VIP_CENTER_X - 1.2, VIP_FLOOR_Y, VIP_CENTER_Z + 1.2))
-  createCocktailTable(Vector3.create(VIP_CENTER_X + 1.2, VIP_FLOOR_Y, VIP_CENTER_Z + 1.2))
+  createCocktailTable(Vector3.create(VIP_CENTER_X - 1.0, VIP_FLOOR_Y, VIP_CENTER_Z - 0.75))
+  createCocktailTable(Vector3.create(VIP_CENTER_X + 1.0, VIP_FLOOR_Y, VIP_CENTER_Z - 0.75))
+  createCocktailTable(Vector3.create(VIP_CENTER_X - 1.0, VIP_FLOOR_Y, VIP_CENTER_Z + 0.75))
+  createCocktailTable(Vector3.create(VIP_CENTER_X + 1.0, VIP_FLOOR_Y, VIP_CENTER_Z + 0.75))
 
   // VIP Stanchions & Velvet Rope
   const stanchionPositions = [
-    Vector3.create(VIP_CENTER_X + 3.2, VIP_FLOOR_Y, VIP_CENTER_Z - 3.2),
-    Vector3.create(VIP_CENTER_X + 3.2, VIP_FLOOR_Y, VIP_CENTER_Z),
-    Vector3.create(VIP_CENTER_X + 3.2, VIP_FLOOR_Y, VIP_CENTER_Z + 3.2)
+    Vector3.create(VIP_CENTER_X + 2.8, VIP_FLOOR_Y, VIP_CENTER_Z - 2.0),
+    Vector3.create(VIP_CENTER_X + 2.8, VIP_FLOOR_Y, VIP_CENTER_Z),
+    Vector3.create(VIP_CENTER_X + 2.8, VIP_FLOOR_Y, VIP_CENTER_Z + 2.0)
   ]
   stanchionPositions.forEach((pos) => {
     const post = engine.addEntity()
@@ -712,7 +713,7 @@ export function setupRooftopClub() {
   // VIP Floating Sign
   const vipSign = engine.addEntity()
   Transform.create(vipSign, {
-    position: Vector3.create(VIP_CENTER_X + 3.2, VIP_FLOOR_Y + 1.8, VIP_CENTER_Z)
+    position: Vector3.create(VIP_CENTER_X + 2.8, VIP_FLOOR_Y + 1.8, VIP_CENTER_Z)
   })
   TextShape.create(vipSign, {
     text: '✦ PRIVATE VIP LOUNGE ✦\n[ RESERVED FOR RESORT GUESTS ]',
@@ -727,14 +728,14 @@ export function setupRooftopClub() {
   // 6. Rooftop Club Cocktail Bar (East Terrace Deck: X = 37 to 42)
   // ---------------------------------------------------------------------------
   const BAR_CENTER_X = 39.5
-  const BAR_CENTER_Z = 16.5
+  const BAR_CENTER_Z = 15.8
   const BAR_Y = ROOF_Y
 
-  // Bar Counter (L-Shape / Linear 5.6m)
+  // Bar Counter (Linear 5.2m)
   const barCounter = engine.addEntity()
   Transform.create(barCounter, {
     position: Vector3.create(BAR_CENTER_X, BAR_Y + 0.60, BAR_CENTER_Z),
-    scale: Vector3.create(1.2, 1.20, 6.2)
+    scale: Vector3.create(1.2, 1.20, 5.2)
   })
   MeshRenderer.setBox(barCounter)
   MeshCollider.setBox(barCounter)
@@ -744,7 +745,7 @@ export function setupRooftopClub() {
   const barFrontLed = engine.addEntity()
   Transform.create(barFrontLed, {
     position: Vector3.create(BAR_CENTER_X - 0.62, BAR_Y + 0.60, BAR_CENTER_Z),
-    scale: Vector3.create(0.04, 1.16, 6.1)
+    scale: Vector3.create(0.04, 1.16, 5.1)
   })
   MeshRenderer.setBox(barFrontLed)
   Material.setPbrMaterial(barFrontLed, neonCyanMat)
@@ -753,7 +754,7 @@ export function setupRooftopClub() {
   const barTop = engine.addEntity()
   Transform.create(barTop, {
     position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.22, BAR_CENTER_Z),
-    scale: Vector3.create(1.4, 0.08, 6.4)
+    scale: Vector3.create(1.4, 0.08, 5.4)
   })
   MeshRenderer.setBox(barTop)
   MeshCollider.setBox(barTop)
@@ -763,7 +764,7 @@ export function setupRooftopClub() {
   const backBarWall = engine.addEntity()
   Transform.create(backBarWall, {
     position: Vector3.create(BAR_CENTER_X + 1.8, BAR_Y + 1.6, BAR_CENTER_Z),
-    scale: Vector3.create(0.35, 3.2, 6.2)
+    scale: Vector3.create(0.35, 3.2, 5.2)
   })
   MeshRenderer.setBox(backBarWall)
   MeshCollider.setBox(backBarWall)
@@ -775,7 +776,7 @@ export function setupRooftopClub() {
     const shelf = engine.addEntity()
     Transform.create(shelf, {
       position: Vector3.create(BAR_CENTER_X + 1.6, shelfY, BAR_CENTER_Z),
-      scale: Vector3.create(0.35, 0.05, 5.8)
+      scale: Vector3.create(0.35, 0.05, 4.8)
     })
     MeshRenderer.setBox(shelf)
     Material.setPbrMaterial(shelf, polishedGoldMat)
@@ -784,7 +785,7 @@ export function setupRooftopClub() {
     for (let b = -4; b <= 4; b++) {
       const bottleEntity = engine.addEntity()
       Transform.create(bottleEntity, {
-        position: Vector3.create(BAR_CENTER_X + 1.6, shelfY + 0.18, BAR_CENTER_Z + b * 0.58),
+        position: Vector3.create(BAR_CENTER_X + 1.6, shelfY + 0.18, BAR_CENTER_Z + b * 0.52),
         scale: Vector3.create(0.10, 0.32, 0.10)
       })
       MeshRenderer.setCylinder(bottleEntity)
@@ -795,7 +796,7 @@ export function setupRooftopClub() {
 
   // 5 Modern Barstools
   for (let stool = -2; stool <= 2; stool++) {
-    const stoolZ = BAR_CENTER_Z + stool * 1.25
+    const stoolZ = BAR_CENTER_Z + stool * 1.05
 
     // Stool base
     const stoolPost = engine.addEntity()

@@ -137,23 +137,42 @@ export function main() {
     roughness: 0.18
   }
 
-  // Floor Guide Track (Flush on podium floor)
+  // Floor Guide Track (Flush on podium floor within portal entrance)
   const floorTrack = engine.addEntity()
   Transform.create(floorTrack, {
     position: Vector3.create(32.0, FLOOR_Y + 0.015, DOOR_Z),
-    scale: Vector3.create(5.2, 0.03, 0.16)
+    scale: Vector3.create(3.84, 0.03, 0.16)
   })
   MeshRenderer.setBox(floorTrack)
   Material.setPbrMaterial(floorTrack, bronzeAccentMaterial)
 
-  // Top Header Guide Track (Beneath portal lintel)
+  // Top Header Guide Track (Sits cleanly beneath portal lintel without extending into window glazing)
   const topTrack = engine.addEntity()
   Transform.create(topTrack, {
     position: Vector3.create(32.0, FLOOR_Y + DOOR_HEIGHT + 0.02, DOOR_Z),
-    scale: Vector3.create(5.2, 0.04, 0.16)
+    scale: Vector3.create(3.84, 0.04, 0.16)
   })
   MeshRenderer.setBox(topTrack)
   Material.setPbrMaterial(topTrack, bronzeAccentMaterial)
+
+  // Slim Bronze Door Frame Lintels for East and West Reception Portals (3.05m clear walk-through height)
+  const eastDoorHeader = engine.addEntity()
+  Transform.create(eastDoorHeader, {
+    position: Vector3.create(26.20, 5.60, 20.80),
+    scale: Vector3.create(0.44, 0.10, 1.80)
+  })
+  MeshRenderer.setBox(eastDoorHeader)
+  MeshCollider.setBox(eastDoorHeader)
+  Material.setPbrMaterial(eastDoorHeader, bronzeAccentMaterial)
+
+  const westDoorHeader = engine.addEntity()
+  Transform.create(westDoorHeader, {
+    position: Vector3.create(37.80, 5.60, 20.80),
+    scale: Vector3.create(0.44, 0.10, 1.80)
+  })
+  MeshRenderer.setBox(westDoorHeader)
+  MeshCollider.setBox(westDoorHeader)
+  Material.setPbrMaterial(westDoorHeader, bronzeAccentMaterial)
 
   // Left Door Panel
   const leftDoor = engine.addEntity()
