@@ -96,60 +96,42 @@ export function setupRooftopClub() {
 
   // ---------------------------------------------------------------------------
   // 2. Rooftop Terrace Deck & Frameless Balustrades
+  // Seamlessly integrated with Villa Suite 6 & the East Wing Grand Staircase
   // ---------------------------------------------------------------------------
   const ROOF_Y = 11.20
   const DECK_CENTER_X = 32.0
   const DECK_CENTER_Z = 16.0
-  const DECK_WIDTH_X = 25.0
-  const DECK_DEPTH_Z = 14.8
-  const STAIR_STEPS = 16
-  const STAIR_START_X = 24.4
-  const STAIR_START_Y = 7.15
-  const STAIR_START_Z = 13.6
-  const STAIR_END_X = 21.0
-  const STAIR_END_Y = ROOF_Y
-  const STAIR_END_Z = 13.6
-  const ROOF_MIN_X = DECK_CENTER_X - DECK_WIDTH_X * 0.5
-  const ROOF_MAX_X = DECK_CENTER_X + DECK_WIDTH_X * 0.5
-  const ROOF_MIN_Z = DECK_CENTER_Z - DECK_DEPTH_Z * 0.5
-  const ROOF_MAX_Z = DECK_CENTER_Z + DECK_DEPTH_Z * 0.5
-  const STAIR_OPENING_MIN_X = STAIR_END_X - 0.16
-  const STAIR_OPENING_MAX_X = STAIR_START_X + 0.16
-  const STAIR_OPENING_MIN_Z = STAIR_START_Z - 1.05
-  const STAIR_OPENING_MAX_Z = STAIR_START_Z + 1.05
 
-  // Split the rooftop slab around the stair run. The opening follows the tread
-  // footprint and leaves the upper end flush with the deck landing.
-  const roofSections = [
-    { minX: ROOF_MIN_X, maxX: STAIR_OPENING_MIN_X, minZ: ROOF_MIN_Z, maxZ: ROOF_MAX_Z },
-    { minX: STAIR_OPENING_MAX_X, maxX: ROOF_MAX_X, minZ: ROOF_MIN_Z, maxZ: ROOF_MAX_Z },
-    {
-      minX: STAIR_OPENING_MIN_X,
-      maxX: STAIR_OPENING_MAX_X,
-      minZ: ROOF_MIN_Z,
-      maxZ: STAIR_OPENING_MIN_Z
-    },
-    {
-      minX: STAIR_OPENING_MIN_X,
-      maxX: STAIR_OPENING_MAX_X,
-      minZ: STAIR_OPENING_MAX_Z,
-      maxZ: ROOF_MAX_Z
-    }
-  ]
-
-  roofSections.forEach((section) => {
-    const width = section.maxX - section.minX
-    const depth = section.maxZ - section.minZ
-    if (width <= 0 || depth <= 0) return
-    const roofSection = engine.addEntity()
-    Transform.create(roofSection, {
-      position: Vector3.create((section.minX + section.maxX) * 0.5, ROOF_Y, (section.minZ + section.maxZ) * 0.5),
-      scale: Vector3.create(width, 0.35, depth)
-    })
-    MeshRenderer.setBox(roofSection)
-    MeshCollider.setBox(roofSection)
-    Material.setPbrMaterial(roofSection, obsidianDeckMat)
+  // 1) Main East Rooftop Dance & Club Deck (X: 24.5 to 44.5, Z: 8.6 to 23.4)
+  const mainDeck = engine.addEntity()
+  Transform.create(mainDeck, {
+    position: Vector3.create(34.5, ROOF_Y, 16.0),
+    scale: Vector3.create(20.0, 0.35, 14.8)
   })
+  MeshRenderer.setBox(mainDeck)
+  MeshCollider.setBox(mainDeck)
+  Material.setPbrMaterial(mainDeck, obsidianDeckMat)
+
+  // 2) West VIP Terrace Deck (X: 19.5 to 24.5, Z: 8.6 to 16.7 - South of Suite 6 Penthouse)
+  const westVipDeck = engine.addEntity()
+  Transform.create(westVipDeck, {
+    position: Vector3.create(22.0, ROOF_Y, 12.65),
+    scale: Vector3.create(5.0, 0.35, 8.1)
+  })
+  MeshRenderer.setBox(westVipDeck)
+  MeshCollider.setBox(westVipDeck)
+  Material.setPbrMaterial(westVipDeck, obsidianDeckMat)
+
+  // 3) Seamless Stair Arrival Landing Connector (X: 20.0 to 24.5, Z: 20.6 to 22.2)
+  // Perfectly flush with the villa's East Wing Grand Staircase exit (EastWing_F2_Step_17 at X = 20.0)
+  const stairLandingConnector = engine.addEntity()
+  Transform.create(stairLandingConnector, {
+    position: Vector3.create(22.25, ROOF_Y, 21.40),
+    scale: Vector3.create(4.5, 0.35, 1.60)
+  })
+  MeshRenderer.setBox(stairLandingConnector)
+  MeshCollider.setBox(stairLandingConnector)
+  Material.setPbrMaterial(stairLandingConnector, obsidianDeckMat)
 
   const createDeckTrim = (position: Vector3, scale: Vector3) => {
     const trim = engine.addEntity()
@@ -158,31 +140,11 @@ export function setupRooftopClub() {
     Material.setPbrMaterial(trim, polishedGoldMat)
   }
 
-  // Gold outer edge and stairwell edge trim; no solid trim spans the opening.
-  createDeckTrim(Vector3.create(DECK_CENTER_X, ROOF_Y, ROOF_MIN_Z), Vector3.create(DECK_WIDTH_X + 0.12, 0.36, 0.08))
-  createDeckTrim(Vector3.create(DECK_CENTER_X, ROOF_Y, ROOF_MAX_Z), Vector3.create(DECK_WIDTH_X + 0.12, 0.36, 0.08))
-  createDeckTrim(Vector3.create(ROOF_MIN_X, ROOF_Y, DECK_CENTER_Z), Vector3.create(0.08, 0.36, DECK_DEPTH_Z))
-  createDeckTrim(Vector3.create(ROOF_MAX_X, ROOF_Y, DECK_CENTER_Z), Vector3.create(0.08, 0.36, DECK_DEPTH_Z))
-  const stairOpeningCenterX = (STAIR_OPENING_MIN_X + STAIR_OPENING_MAX_X) * 0.5
-  const stairOpeningWidth = STAIR_OPENING_MAX_X - STAIR_OPENING_MIN_X
-  const stairOpeningDepth = STAIR_OPENING_MAX_Z - STAIR_OPENING_MIN_Z
-  const stairOpeningTrimY = ROOF_Y + 0.16
-  createDeckTrim(
-    Vector3.create(stairOpeningCenterX, stairOpeningTrimY, STAIR_OPENING_MIN_Z),
-    Vector3.create(stairOpeningWidth, 0.06, 0.08)
-  )
-  createDeckTrim(
-    Vector3.create(stairOpeningCenterX, stairOpeningTrimY, STAIR_OPENING_MAX_Z),
-    Vector3.create(stairOpeningWidth, 0.06, 0.08)
-  )
-  createDeckTrim(
-    Vector3.create(STAIR_OPENING_MIN_X, stairOpeningTrimY, STAIR_START_Z),
-    Vector3.create(0.08, 0.06, stairOpeningDepth)
-  )
-  createDeckTrim(
-    Vector3.create(STAIR_OPENING_MAX_X, stairOpeningTrimY, STAIR_START_Z),
-    Vector3.create(0.08, 0.06, stairOpeningDepth)
-  )
+  // Polished Gold Perimeter Trim (cleanly matches deck borders without obstructing walkways)
+  createDeckTrim(Vector3.create(32.0, ROOF_Y, 8.6), Vector3.create(25.12, 0.36, 0.08)) // North edge
+  createDeckTrim(Vector3.create(44.5, ROOF_Y, 16.0), Vector3.create(0.08, 0.36, 14.8)) // East edge
+  createDeckTrim(Vector3.create(34.5, ROOF_Y, 23.4), Vector3.create(20.12, 0.36, 0.08)) // South edge (Main Deck)
+  createDeckTrim(Vector3.create(19.5, ROOF_Y, 12.65), Vector3.create(0.08, 0.36, 8.1)) // West edge (VIP Terrace)
 
   // Frameless Smoked Glass Balustrades with Bronze Handrail
   const createRailing = (pos: Vector3, scale: Vector3) => {
@@ -210,34 +172,31 @@ export function setupRooftopClub() {
     Material.setPbrMaterial(rail, polishedGoldMat)
   }
 
-  const HALF_X = DECK_WIDTH_X * 0.5
-  const HALF_Z = DECK_DEPTH_Z * 0.5
-
-  // South railing (facing front estate)
+  // North railing (facing rear scenic hills - full width)
   createRailing(
-    Vector3.create(DECK_CENTER_X, ROOF_Y, DECK_CENTER_Z + HALF_Z),
-    Vector3.create(DECK_WIDTH_X, 1.15, 0.06)
+    Vector3.create(32.0, ROOF_Y, 8.6),
+    Vector3.create(25.0, 1.15, 0.06)
   )
-  // North railing (facing rear scenic hills)
+  // East railing (facing east skyline - full depth)
   createRailing(
-    Vector3.create(DECK_CENTER_X, ROOF_Y, DECK_CENTER_Z - HALF_Z),
-    Vector3.create(DECK_WIDTH_X, 1.15, 0.06)
+    Vector3.create(44.5, ROOF_Y, 16.0),
+    Vector3.create(0.06, 1.15, 14.8)
   )
-  // West railing
+  // South railing (Main Deck - ends flush at Suite 6 Penthouse front wall, 100% open for stair arrival)
   createRailing(
-    Vector3.create(DECK_CENTER_X - HALF_X, ROOF_Y, DECK_CENTER_Z),
-    Vector3.create(0.06, 1.15, DECK_DEPTH_Z)
+    Vector3.create(34.5, ROOF_Y, 23.4),
+    Vector3.create(20.0, 1.15, 0.06)
   )
-  // East railing
+  // West railing (VIP Terrace - ends flush at Suite 6 Penthouse rear wall, leaves stair arrival 100% unobstructed)
   createRailing(
-    Vector3.create(DECK_CENTER_X + HALF_X, ROOF_Y, DECK_CENTER_Z),
-    Vector3.create(0.06, 1.15, DECK_DEPTH_Z)
+    Vector3.create(19.5, ROOF_Y, 12.65),
+    Vector3.create(0.06, 1.15, 8.1)
   )
 
   // Floating Club Grand Billboard Sign above North Edge
   const clubSign = engine.addEntity()
   Transform.create(clubSign, {
-    position: Vector3.create(DECK_CENTER_X, ROOF_Y + 7.6, DECK_CENTER_Z - HALF_Z + 0.4)
+    position: Vector3.create(DECK_CENTER_X, ROOF_Y + 7.6, 9.0)
   })
   TextShape.create(clubSign, {
     text: '✦ SKYLINE CLUB ✦\nROOFTOP LOUNGE & VIP STAGE',
@@ -728,15 +687,15 @@ export function setupRooftopClub() {
   // 6. Rooftop Club Freestanding Island Cocktail Bar (360° Open - No Walls)
   // Centered with generous open clearances on all 4 sides (does not touch any wall or railing)
   // ---------------------------------------------------------------------------
-  const BAR_CENTER_X = 39.0
-  const BAR_CENTER_Z = 16.0
+  const BAR_CENTER_X = 36.2
+  const BAR_CENTER_Z = 15.5
   const BAR_Y = ROOF_Y
 
   // Freestanding Island Bar Counter Base (Obsidian)
   const barCounter = engine.addEntity()
   Transform.create(barCounter, {
     position: Vector3.create(BAR_CENTER_X, BAR_Y + 0.58, BAR_CENTER_Z),
-    scale: Vector3.create(1.4, 1.15, 3.8)
+    scale: Vector3.create(1.2, 1.15, 3.4)
   })
   MeshRenderer.setBox(barCounter)
   MeshCollider.setBox(barCounter)
@@ -746,7 +705,7 @@ export function setupRooftopClub() {
   const barCounterTrim = engine.addEntity()
   Transform.create(barCounterTrim, {
     position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.15, BAR_CENTER_Z),
-    scale: Vector3.create(1.46, 0.05, 3.86)
+    scale: Vector3.create(1.26, 0.05, 3.46)
   })
   MeshRenderer.setBox(barCounterTrim)
   Material.setPbrMaterial(barCounterTrim, polishedGoldMat)
@@ -755,7 +714,7 @@ export function setupRooftopClub() {
   const barTop = engine.addEntity()
   Transform.create(barTop, {
     position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.20, BAR_CENTER_Z),
-    scale: Vector3.create(1.60, 0.08, 4.0)
+    scale: Vector3.create(1.40, 0.08, 3.6)
   })
   MeshRenderer.setBox(barTop)
   MeshCollider.setBox(barTop)
@@ -769,20 +728,20 @@ export function setupRooftopClub() {
     Material.setPbrMaterial(apron, mat)
   }
   // West apron (facing dancefloor)
-  createBarApron(Vector3.create(BAR_CENTER_X - 0.72, BAR_Y + 0.58, BAR_CENTER_Z), Vector3.create(0.04, 1.10, 3.7), neonCyanMat)
+  createBarApron(Vector3.create(BAR_CENTER_X - 0.62, BAR_Y + 0.58, BAR_CENTER_Z), Vector3.create(0.04, 1.10, 3.3), neonCyanMat)
   // East apron (facing terrace)
-  createBarApron(Vector3.create(BAR_CENTER_X + 0.72, BAR_Y + 0.58, BAR_CENTER_Z), Vector3.create(0.04, 1.10, 3.7), neonMagentaMat)
+  createBarApron(Vector3.create(BAR_CENTER_X + 0.62, BAR_Y + 0.58, BAR_CENTER_Z), Vector3.create(0.04, 1.10, 3.3), neonMagentaMat)
   // North apron
-  createBarApron(Vector3.create(BAR_CENTER_X, BAR_Y + 0.58, BAR_CENTER_Z - 1.92), Vector3.create(1.4, 1.10, 0.04), neonCyanMat)
+  createBarApron(Vector3.create(BAR_CENTER_X, BAR_Y + 0.58, BAR_CENTER_Z - 1.72), Vector3.create(1.2, 1.10, 0.04), neonCyanMat)
   // South apron
-  createBarApron(Vector3.create(BAR_CENTER_X, BAR_Y + 0.58, BAR_CENTER_Z + 1.92), Vector3.create(1.4, 1.10, 0.04), neonMagentaMat)
+  createBarApron(Vector3.create(BAR_CENTER_X, BAR_Y + 0.58, BAR_CENTER_Z + 1.72), Vector3.create(1.2, 1.10, 0.04), neonMagentaMat)
 
   // Central Tiered Island Bottle Display (Freestanding on the marble counter top, 0 walls)
   // Lower Display Riser
   const tierLower = engine.addEntity()
   Transform.create(tierLower, {
     position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.32, BAR_CENTER_Z),
-    scale: Vector3.create(0.44, 0.16, 2.6)
+    scale: Vector3.create(0.40, 0.16, 2.4)
   })
   MeshRenderer.setBox(tierLower)
   Material.setPbrMaterial(tierLower, polishedGoldMat)
@@ -791,7 +750,7 @@ export function setupRooftopClub() {
   const tierUpper = engine.addEntity()
   Transform.create(tierUpper, {
     position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.48, BAR_CENTER_Z),
-    scale: Vector3.create(0.24, 0.16, 1.9)
+    scale: Vector3.create(0.22, 0.16, 1.8)
   })
   MeshRenderer.setBox(tierUpper)
   Material.setPbrMaterial(tierUpper, smokedGlassMat)
@@ -801,7 +760,7 @@ export function setupRooftopClub() {
     // Lower tier bottles
     const bLower = engine.addEntity()
     Transform.create(bLower, {
-      position: Vector3.create(BAR_CENTER_X + (b % 2 === 0 ? 0.12 : -0.12), BAR_Y + 1.48, BAR_CENTER_Z + b * 0.38),
+      position: Vector3.create(BAR_CENTER_X + (b % 2 === 0 ? 0.10 : -0.10), BAR_Y + 1.48, BAR_CENTER_Z + b * 0.35),
       scale: Vector3.create(0.10, 0.30, 0.10)
     })
     MeshRenderer.setCylinder(bLower)
@@ -811,7 +770,7 @@ export function setupRooftopClub() {
     if (Math.abs(b) <= 2) {
       const bUpper = engine.addEntity()
       Transform.create(bUpper, {
-        position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.64, BAR_CENTER_Z + b * 0.38),
+        position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.64, BAR_CENTER_Z + b * 0.35),
         scale: Vector3.create(0.09, 0.28, 0.09)
       })
       MeshRenderer.setCylinder(bUpper)
@@ -821,9 +780,9 @@ export function setupRooftopClub() {
 
   // Modern Barstools (West and East sides, leaving open walkways around the island)
   for (let sIdx = -1; sIdx <= 1; sIdx++) {
-    const stoolZ = BAR_CENTER_Z + sIdx * 1.20
+    const stoolZ = BAR_CENTER_Z + sIdx * 1.10
 
-    for (const [stoolX, rotDeg] of [[BAR_CENTER_X - 1.15, 90], [BAR_CENTER_X + 1.15, -90]]) {
+    for (const [stoolX, rotDeg] of [[BAR_CENTER_X - 1.05, 90], [BAR_CENTER_X + 1.05, -90]]) {
       // Stool post
       const stoolPost = engine.addEntity()
       Transform.create(stoolPost, {
@@ -848,7 +807,7 @@ export function setupRooftopClub() {
   // Bar Neon Sign
   const barSign = engine.addEntity()
   Transform.create(barSign, {
-    position: Vector3.create(BAR_CENTER_X, BAR_Y + 3.4, BAR_CENTER_Z)
+    position: Vector3.create(BAR_CENTER_X, BAR_Y + 3.2, BAR_CENTER_Z)
   })
   TextShape.create(barSign, {
     text: '✦ SKYLINE COCKTAIL BAR ✦\n[ CLICK SHAKER TO ORDER SIGNATURE DRINKS ]',
@@ -862,7 +821,7 @@ export function setupRooftopClub() {
   // Interactive Cocktail Shaker
   const cocktailShaker = engine.addEntity()
   Transform.create(cocktailShaker, {
-    position: Vector3.create(BAR_CENTER_X - 0.4, BAR_Y + 1.35, BAR_CENTER_Z),
+    position: Vector3.create(BAR_CENTER_X - 0.35, BAR_Y + 1.35, BAR_CENTER_Z),
     scale: Vector3.create(0.18, 0.34, 0.18)
   })
   MeshRenderer.setCylinder(cocktailShaker)
@@ -1023,37 +982,7 @@ export function setupRooftopClub() {
   )
 
   // ---------------------------------------------------------------------------
-  // 8. Walkable Grand Skyline Staircase (Suite 3 SkyBridge to Rooftop Terrace)
-  // ---------------------------------------------------------------------------
-  // Suite 3 Floor at Y = 7.15, ascending to Rooftop Deck at Y = 11.20 (4.05m rise)
-  // Steps run from X = 23.5 up eastward to X = 20.0, or along Z = 13.0
-  for (let s = 0; s <= STAIR_STEPS; s++) {
-    const frac = s / STAIR_STEPS
-    const stepX = STAIR_START_X + (STAIR_END_X - STAIR_START_X) * frac
-    const stepY = STAIR_START_Y + (STAIR_END_Y - STAIR_START_Y) * frac
-    const stepZ = STAIR_START_Z
-
-    const tread = engine.addEntity()
-    Transform.create(tread, {
-      position: Vector3.create(stepX, stepY + 0.08, stepZ),
-      scale: Vector3.create(0.32, 0.16, 1.8)
-    })
-    MeshRenderer.setBox(tread)
-    MeshCollider.setBox(tread)
-    Material.setPbrMaterial(tread, travertineMarbleMat)
-
-    // LED tread underglow
-    const treadGlow = engine.addEntity()
-    Transform.create(treadGlow, {
-      position: Vector3.create(stepX, stepY + 0.02, stepZ),
-      scale: Vector3.create(0.34, 0.04, 1.82)
-    })
-    MeshRenderer.setBox(treadGlow)
-    Material.setPbrMaterial(treadGlow, neonCyanMat)
-  }
-
-  // ---------------------------------------------------------------------------
-  // 9. Dynamic System: Moving Spotlights & Pulsating Dance Floor Waves
+  // 8. Dynamic System: Moving Spotlights & Pulsating Dance Floor Waves
   // ---------------------------------------------------------------------------
   let animTime = 0
 
