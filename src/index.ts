@@ -97,17 +97,17 @@ export function main() {
     Billboard.create(s, { billboardMode: BillboardMode.BM_Y })
   }
 
-  // Hallway signs positioned above 3.10m tall doorway portals
-  createHallSign(Vector3.create(37.8, 5.85, 21.25), 'EAST WING ▶\n(SUITES 4, 5 & 6)')
-  createHallSign(Vector3.create(26.2, 5.85, 21.25), '◀ WEST WING\n(SUITES 1 & 2)')
-  createHallSign(Vector3.create(32.0, 6.20, 18.2), '▲ SKYBRIDGE PENTHOUSE ▲\n(SUITE 3 - GRAND STAIRS)')
-  createHallSign(Vector3.create(32.0, 5.85, 20.6), '▲ ROOFTOP SKYLINE NIGHTCLUB ▲\n(EXPRESS SKY LIFT)')
+  // Hallway signs positioned above 3.40m tall doorway portals
+  createHallSign(Vector3.create(37.8, 6.20, 21.25), 'EAST WING ▶\n(SUITES 4, 5 & 6)')
+  createHallSign(Vector3.create(26.2, 6.20, 21.25), '◀ WEST WING\n(SUITES 1 & 2)')
+  createHallSign(Vector3.create(32.0, 6.40, 18.2), '▲ SKYBRIDGE PENTHOUSE ▲\n(SUITE 3 - GRAND STAIRS)')
+  createHallSign(Vector3.create(32.0, 6.20, 20.6), '▲ ROOFTOP SKYLINE NIGHTCLUB ▲\n(EXPRESS SKY LIFT)')
 
   // 3. Sliding Doors Architecture (Facing FRONT STEPS at Z = 23.8)
   const DOOR_Z = 23.8
   const FLOOR_Y = 2.5
-  const DOOR_HEIGHT = 3.10
-  const DOOR_CENTER_Y = FLOOR_Y + DOOR_HEIGHT * 0.5 // 4.05
+  const DOOR_HEIGHT = 3.40
+  const DOOR_CENTER_Y = FLOOR_Y + DOOR_HEIGHT * 0.5 // 4.20
   const PANEL_WIDTH = 1.68
   const PANEL_THICKNESS = 0.08
 
@@ -146,7 +146,7 @@ export function main() {
   MeshRenderer.setBox(floorTrack)
   Material.setPbrMaterial(floorTrack, bronzeAccentMaterial)
 
-  // Top Header Guide Track (Sits cleanly beneath portal lintel without extending into window glazing)
+  // Top Header Guide Track (Sits cleanly beneath portal lintel at 3.40m height)
   const topTrack = engine.addEntity()
   Transform.create(topTrack, {
     position: Vector3.create(32.0, FLOOR_Y + DOOR_HEIGHT + 0.02, DOOR_Z),
@@ -155,11 +155,11 @@ export function main() {
   MeshRenderer.setBox(topTrack)
   Material.setPbrMaterial(topTrack, bronzeAccentMaterial)
 
-  // Slim Bronze Door Frame Lintels for East and West Reception Portals (3.05m clear walk-through height)
+  // Slim Bronze Door Frame Lintels for East and West Reception Portals (3.40m clear walk-through height)
   const eastDoorHeader = engine.addEntity()
   Transform.create(eastDoorHeader, {
-    position: Vector3.create(26.20, 5.60, 20.80),
-    scale: Vector3.create(0.44, 0.10, 1.80)
+    position: Vector3.create(26.20, 5.92, 20.80),
+    scale: Vector3.create(0.44, 0.08, 1.80)
   })
   MeshRenderer.setBox(eastDoorHeader)
   MeshCollider.setBox(eastDoorHeader)
@@ -167,8 +167,8 @@ export function main() {
 
   const westDoorHeader = engine.addEntity()
   Transform.create(westDoorHeader, {
-    position: Vector3.create(37.80, 5.60, 20.80),
-    scale: Vector3.create(0.44, 0.10, 1.80)
+    position: Vector3.create(37.80, 5.92, 20.80),
+    scale: Vector3.create(0.44, 0.08, 1.80)
   })
   MeshRenderer.setBox(westDoorHeader)
   MeshCollider.setBox(westDoorHeader)

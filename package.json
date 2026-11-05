@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "SDK7 Template scene",
   "scripts": {
-    "start": "sdk-commands start",
-    "deploy": "sdk-commands deploy",
-    "build": "sdk-commands build",
+    "start": "npx --no-install sdk-commands start",
+    "deploy": "npx --no-install sdk-commands deploy",
+    "build": "DCL_DISABLE_ANALYTICS=true npx --no-install sdk-commands build",
     "upgrade-sdk": "npm install --save-dev @dcl/sdk@latest",
     "upgrade-sdk:next": "npm install --save-dev @dcl/sdk@next"
   },

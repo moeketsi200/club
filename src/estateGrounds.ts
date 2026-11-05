@@ -74,20 +74,33 @@ export function setupEstateGrounds() {
   }
 
   // ---------------------------------------------------------------------------
+  // 1. Scene Boundaries & Base Terrain (64m x 64m estate, 16 parcels)
+  // Continuous elevated estate foundation that completely covers Genesis Plaza red terrain
+  // ---------------------------------------------------------------------------
+  const estateBase = engine.addEntity()
+  Transform.create(estateBase, {
+    position: Vector3.create(32.0, 0.10, 32.0),
+    scale: Vector3.create(64.0, 0.25, 64.0)
+  })
+  MeshRenderer.setBox(estateBase)
+  MeshCollider.setBox(estateBase)
+  Material.setPbrMaterial(estateBase, darkSlateMat)
+
+  // ---------------------------------------------------------------------------
   // 2. Grand Travertine Resort Plaza Floor (Surrounding Villa)
   // Replaces raw grass outside and beneath the villa with a seamless luxury stone terrace
   // ---------------------------------------------------------------------------
   const PLAZA_CENTER_X = 32.0
   const PLAZA_CENTER_Z = 14.5
-  const PLAZA_WIDTH_X = 54.0
-  const PLAZA_DEPTH_Z = 25.0
-  const PLAZA_FLOOR_Y = 0.08
+  const PLAZA_WIDTH_X = 58.0
+  const PLAZA_DEPTH_Z = 28.0
+  const PLAZA_FLOOR_Y = 0.22
 
   // Dark Slate Accent Perimeter Rim
   const plazaRim = engine.addEntity()
   Transform.create(plazaRim, {
     position: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y - 0.01, PLAZA_CENTER_Z),
-    scale: Vector3.create(PLAZA_WIDTH_X + 0.6, 0.18, PLAZA_DEPTH_Z + 0.6)
+    scale: Vector3.create(PLAZA_WIDTH_X + 0.8, 0.26, PLAZA_DEPTH_Z + 0.8)
   })
   MeshRenderer.setBox(plazaRim)
   MeshCollider.setBox(plazaRim)
@@ -97,7 +110,7 @@ export function setupEstateGrounds() {
   const villaPlazaFloor = engine.addEntity()
   Transform.create(villaPlazaFloor, {
     position: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y, PLAZA_CENTER_Z),
-    scale: Vector3.create(PLAZA_WIDTH_X, 0.18, PLAZA_DEPTH_Z)
+    scale: Vector3.create(PLAZA_WIDTH_X, 0.26, PLAZA_DEPTH_Z)
   })
   MeshRenderer.setBox(villaPlazaFloor)
   MeshCollider.setBox(villaPlazaFloor)
@@ -105,10 +118,10 @@ export function setupEstateGrounds() {
 
   // Gold Architectural Inset Border along Plaza Perimeter
   const plazaTrimSegments = [
-    { pos: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y + 0.095, PLAZA_CENTER_Z - PLAZA_DEPTH_Z * 0.5 + 0.25), scale: Vector3.create(PLAZA_WIDTH_X - 0.5, 0.015, 0.10) },
-    { pos: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y + 0.095, PLAZA_CENTER_Z + PLAZA_DEPTH_Z * 0.5 - 0.25), scale: Vector3.create(PLAZA_WIDTH_X - 0.5, 0.015, 0.10) },
-    { pos: Vector3.create(PLAZA_CENTER_X - PLAZA_WIDTH_X * 0.5 + 0.25, PLAZA_FLOOR_Y + 0.095, PLAZA_CENTER_Z), scale: Vector3.create(0.10, 0.015, PLAZA_DEPTH_Z - 0.5) },
-    { pos: Vector3.create(PLAZA_CENTER_X + PLAZA_WIDTH_X * 0.5 - 0.25, PLAZA_FLOOR_Y + 0.095, PLAZA_CENTER_Z), scale: Vector3.create(0.10, 0.015, PLAZA_DEPTH_Z - 0.5) }
+    { pos: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y + 0.135, PLAZA_CENTER_Z - PLAZA_DEPTH_Z * 0.5 + 0.25), scale: Vector3.create(PLAZA_WIDTH_X - 0.5, 0.015, 0.10) },
+    { pos: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y + 0.135, PLAZA_CENTER_Z + PLAZA_DEPTH_Z * 0.5 - 0.25), scale: Vector3.create(PLAZA_WIDTH_X - 0.5, 0.015, 0.10) },
+    { pos: Vector3.create(PLAZA_CENTER_X - PLAZA_WIDTH_X * 0.5 + 0.25, PLAZA_FLOOR_Y + 0.135, PLAZA_CENTER_Z), scale: Vector3.create(0.10, 0.015, PLAZA_DEPTH_Z - 0.5) },
+    { pos: Vector3.create(PLAZA_CENTER_X + PLAZA_WIDTH_X * 0.5 - 0.25, PLAZA_FLOOR_Y + 0.135, PLAZA_CENTER_Z), scale: Vector3.create(0.10, 0.015, PLAZA_DEPTH_Z - 0.5) }
   ]
   plazaTrimSegments.forEach((seg) => {
     const goldTrim = engine.addEntity()
@@ -119,7 +132,7 @@ export function setupEstateGrounds() {
 
   // ---------------------------------------------------------------------------
   // 2B. Landscaped Garden Lawn Areas (Front Park & Estate Borders)
-  // Keeps grass in the landscaped resort grounds without invading the villa terrace
+  // Clean green manicured turf elevated safely above Genesis Plaza terrain
   // ---------------------------------------------------------------------------
   const createLawnSection = (pos: Vector3, scale: Vector3) => {
     const lawn = engine.addEntity()
@@ -130,13 +143,13 @@ export function setupEstateGrounds() {
   }
 
   // Front Estate Park Lawn (Z: 26.8 to 63.8, hosting cabanas, pools, avenue, fire pit)
-  createLawnSection(Vector3.create(32.0, -0.05, 45.3), Vector3.create(63.8, 0.10, 37.0))
+  createLawnSection(Vector3.create(32.0, 0.16, 45.3), Vector3.create(63.8, 0.16, 37.0))
   // West Side Garden Strip
-  createLawnSection(Vector3.create(2.5, -0.05, 14.5), Vector3.create(5.0, 0.10, 25.0))
+  createLawnSection(Vector3.create(2.5, 0.16, 14.5), Vector3.create(5.0, 0.16, 25.0))
   // East Side Garden Strip
-  createLawnSection(Vector3.create(61.5, -0.05, 14.5), Vector3.create(5.0, 0.10, 25.0))
+  createLawnSection(Vector3.create(61.5, 0.16, 14.5), Vector3.create(5.0, 0.16, 25.0))
   // North / Rear Garden Strip
-  createLawnSection(Vector3.create(32.0, -0.05, 1.0), Vector3.create(63.8, 0.10, 2.0))
+  createLawnSection(Vector3.create(32.0, 0.16, 1.0), Vector3.create(63.8, 0.16, 2.0))
 
   // ---------------------------------------------------------------------------
   // 3. Grand Arrival Boulevard & VIP Avenue (Z = 24 to 58)
@@ -146,8 +159,8 @@ export function setupEstateGrounds() {
   const avenueCenterZ = 24.0 + avenueLength * 0.5 // 41.0m
   const avenue = engine.addEntity()
   Transform.create(avenue, {
-    position: Vector3.create(32.0, 0.06, avenueCenterZ),
-    scale: Vector3.create(10.2, 0.12, avenueLength)
+    position: Vector3.create(32.0, 0.24, avenueCenterZ),
+    scale: Vector3.create(10.2, 0.22, avenueLength)
   })
   MeshRenderer.setBox(avenue)
   MeshCollider.setBox(avenue)
@@ -156,7 +169,7 @@ export function setupEstateGrounds() {
   // VIP Bronze & Slate Central Runner
   const runner = engine.addEntity()
   Transform.create(runner, {
-    position: Vector3.create(32.0, 0.14, avenueCenterZ),
+    position: Vector3.create(32.0, 0.36, avenueCenterZ),
     scale: Vector3.create(3.6, 0.04, avenueLength)
   })
   MeshRenderer.setBox(runner)
@@ -167,7 +180,7 @@ export function setupEstateGrounds() {
   for (const offX of [-1.82, 1.82]) {
     const goldStrip = engine.addEntity()
     Transform.create(goldStrip, {
-      position: Vector3.create(32.0 + offX, 0.15, avenueCenterZ),
+      position: Vector3.create(32.0 + offX, 0.37, avenueCenterZ),
       scale: Vector3.create(0.08, 0.04, avenueLength)
     })
     MeshRenderer.setBox(goldStrip)
@@ -185,8 +198,8 @@ export function setupEstateGrounds() {
     // Stone Coping Basin Rim
     const poolRim = engine.addEntity()
     Transform.create(poolRim, {
-      position: Vector3.create(centerX, 0.18, poolZ),
-      scale: Vector3.create(poolWidth + 0.6, 0.28, poolLength + 0.6)
+      position: Vector3.create(centerX, 0.36, poolZ),
+      scale: Vector3.create(poolWidth + 0.6, 0.36, poolLength + 0.6)
     })
     MeshRenderer.setBox(poolRim)
     MeshCollider.setBox(poolRim)
@@ -195,7 +208,7 @@ export function setupEstateGrounds() {
     // Inner Pool Basin Floor
     const poolFloor = engine.addEntity()
     Transform.create(poolFloor, {
-      position: Vector3.create(centerX, 0.02, poolZ),
+      position: Vector3.create(centerX, 0.20, poolZ),
       scale: Vector3.create(poolWidth, 0.04, poolLength)
     })
     MeshRenderer.setBox(poolFloor)
@@ -204,7 +217,7 @@ export function setupEstateGrounds() {
     // Pool Water Surface
     const poolWater = engine.addEntity()
     Transform.create(poolWater, {
-      position: Vector3.create(centerX, 0.22, poolZ),
+      position: Vector3.create(centerX, 0.40, poolZ),
       scale: Vector3.create(poolWidth, 0.02, poolLength)
     })
     MeshRenderer.setBox(poolWater)
@@ -214,7 +227,7 @@ export function setupEstateGrounds() {
     for (const zOff of [-5.5, 0, 5.5]) {
       const fountainSpout = engine.addEntity()
       Transform.create(fountainSpout, {
-        position: Vector3.create(centerX, 0.65, poolZ + zOff),
+        position: Vector3.create(centerX, 0.85, poolZ + zOff),
         scale: Vector3.create(0.35, 0.85, 0.35)
       })
       MeshRenderer.setCylinder(fountainSpout)
@@ -223,7 +236,7 @@ export function setupEstateGrounds() {
       // Submerged LED Glow
       const poolLed = engine.addEntity()
       Transform.create(poolLed, {
-        position: Vector3.create(centerX, 0.35, poolZ + zOff)
+        position: Vector3.create(centerX, 0.50, poolZ + zOff)
       })
       LightSource.create(poolLed, {
         type: LightSource.Type.Point({}),
@@ -246,7 +259,7 @@ export function setupEstateGrounds() {
     // Planter Box
     const planter = engine.addEntity()
     Transform.create(planter, {
-      position: Vector3.create(pos.x, 0.25, pos.z),
+      position: Vector3.create(pos.x, 0.40, pos.z),
       scale: Vector3.create(1.6, 0.50, 1.6)
     })
     MeshRenderer.setBox(planter)
@@ -256,7 +269,7 @@ export function setupEstateGrounds() {
     // Trunk
     const trunk = engine.addEntity()
     Transform.create(trunk, {
-      position: Vector3.create(pos.x, 3.2, pos.z),
+      position: Vector3.create(pos.x, 3.35, pos.z),
       scale: Vector3.create(0.38, 5.5, 0.38)
     })
     MeshRenderer.setCylinder(trunk)
@@ -267,7 +280,7 @@ export function setupEstateGrounds() {
     angles.forEach((deg) => {
       const frond = engine.addEntity()
       Transform.create(frond, {
-        position: Vector3.create(pos.x, 5.8, pos.z),
+        position: Vector3.create(pos.x, 5.95, pos.z),
         scale: Vector3.create(0.65, 0.08, 3.2),
         rotation: Quaternion.fromEulerDegrees(25, deg, 0)
       })
@@ -278,7 +291,7 @@ export function setupEstateGrounds() {
     // Uplight at base of trunk
     const uplight = engine.addEntity()
     Transform.create(uplight, {
-      position: Vector3.create(pos.x, 0.55, pos.z)
+      position: Vector3.create(pos.x, 0.70, pos.z)
     })
     LightSource.create(uplight, {
       type: LightSource.Type.Point({}),
@@ -302,7 +315,7 @@ export function setupEstateGrounds() {
       // Bollard Post
       const post = engine.addEntity()
       Transform.create(post, {
-        position: Vector3.create(x, 0.45, z),
+        position: Vector3.create(x, 0.60, z),
         scale: Vector3.create(0.14, 0.90, 0.14)
       })
       MeshRenderer.setBox(post)
@@ -311,7 +324,7 @@ export function setupEstateGrounds() {
       // Glowing Lantern Top
       const lamp = engine.addEntity()
       Transform.create(lamp, {
-        position: Vector3.create(x, 0.92, z),
+        position: Vector3.create(x, 1.07, z),
         scale: Vector3.create(0.16, 0.12, 0.16)
       })
       MeshRenderer.setBox(lamp)
@@ -328,7 +341,7 @@ export function setupEstateGrounds() {
   // Stone Monument Pylons
   const leftPylon = engine.addEntity()
   Transform.create(leftPylon, {
-    position: Vector3.create(MONUMENT_X - 4.6, 2.5, MONUMENT_Z),
+    position: Vector3.create(MONUMENT_X - 4.6, 2.65, MONUMENT_Z),
     scale: Vector3.create(1.2, 5.0, 1.2)
   })
   MeshRenderer.setBox(leftPylon)
@@ -337,7 +350,7 @@ export function setupEstateGrounds() {
 
   const rightPylon = engine.addEntity()
   Transform.create(rightPylon, {
-    position: Vector3.create(MONUMENT_X + 4.6, 2.5, MONUMENT_Z),
+    position: Vector3.create(MONUMENT_X + 4.6, 2.65, MONUMENT_Z),
     scale: Vector3.create(1.2, 5.0, 1.2)
   })
   MeshRenderer.setBox(rightPylon)
@@ -347,7 +360,7 @@ export function setupEstateGrounds() {
   // Floating Crossbeam
   const crossbeam = engine.addEntity()
   Transform.create(crossbeam, {
-    position: Vector3.create(MONUMENT_X, 4.8, MONUMENT_Z),
+    position: Vector3.create(MONUMENT_X, 4.95, MONUMENT_Z),
     scale: Vector3.create(10.4, 0.45, 0.8)
   })
   MeshRenderer.setBox(crossbeam)
@@ -356,7 +369,7 @@ export function setupEstateGrounds() {
   // Grand Entrance Title Sign
   const monumentSign = engine.addEntity()
   Transform.create(monumentSign, {
-    position: Vector3.create(MONUMENT_X, 4.0, MONUMENT_Z + 0.65)
+    position: Vector3.create(MONUMENT_X, 4.15, MONUMENT_Z + 0.65)
   })
   TextShape.create(monumentSign, {
     text: '✦ THE RESORT & SKYLINE CLUB ✦\n[ WELCOME TO THE 16-PARCEL PRIVATE ESTATE ]',
@@ -376,7 +389,7 @@ export function setupEstateGrounds() {
   // Circular Seating Bench (North and South halves)
   const benchNorth = engine.addEntity()
   Transform.create(benchNorth, {
-    position: Vector3.create(FIRE_X, 0.35, FIRE_Z - 2.8),
+    position: Vector3.create(FIRE_X, 0.50, FIRE_Z - 2.8),
     scale: Vector3.create(5.6, 0.45, 0.8)
   })
   MeshRenderer.setBox(benchNorth)
@@ -385,7 +398,7 @@ export function setupEstateGrounds() {
 
   const benchSouth = engine.addEntity()
   Transform.create(benchSouth, {
-    position: Vector3.create(FIRE_X, 0.35, FIRE_Z + 2.8),
+    position: Vector3.create(FIRE_X, 0.50, FIRE_Z + 2.8),
     scale: Vector3.create(5.6, 0.45, 0.8)
   })
   MeshRenderer.setBox(benchSouth)
@@ -395,7 +408,7 @@ export function setupEstateGrounds() {
   // Fire Pit Stone Bowl
   const firePitBowl = engine.addEntity()
   Transform.create(firePitBowl, {
-    position: Vector3.create(FIRE_X, 0.30, FIRE_Z),
+    position: Vector3.create(FIRE_X, 0.45, FIRE_Z),
     scale: Vector3.create(1.8, 0.50, 1.8)
   })
   MeshRenderer.setCylinder(firePitBowl)
@@ -405,7 +418,7 @@ export function setupEstateGrounds() {
   // Glowing Fire Embers
   const fireEmbers = engine.addEntity()
   Transform.create(fireEmbers, {
-    position: Vector3.create(FIRE_X, 0.55, FIRE_Z),
+    position: Vector3.create(FIRE_X, 0.70, FIRE_Z),
     scale: Vector3.create(1.3, 0.15, 1.3)
   })
   MeshRenderer.setCylinder(fireEmbers)
@@ -414,7 +427,7 @@ export function setupEstateGrounds() {
   // Warm Fireplace Point Light
   const fireLight = engine.addEntity()
   Transform.create(fireLight, {
-    position: Vector3.create(FIRE_X, 0.90, FIRE_Z)
+    position: Vector3.create(FIRE_X, 1.05, FIRE_Z)
   })
   LightSource.create(fireLight, {
     type: LightSource.Type.Point({}),
@@ -426,7 +439,7 @@ export function setupEstateGrounds() {
   // Fire Pit Floating Label
   const fireLabel = engine.addEntity()
   Transform.create(fireLabel, {
-    position: Vector3.create(FIRE_X, 2.2, FIRE_Z)
+    position: Vector3.create(FIRE_X, 2.35, FIRE_Z)
   })
   TextShape.create(fireLabel, {
     text: '✦ SUNSET FIRE PIT LOUNGE ✦',
@@ -444,7 +457,7 @@ export function setupEstateGrounds() {
   // Teak Wood Cabana Platform
   const cabanaPlatform = engine.addEntity()
   Transform.create(cabanaPlatform, {
-    position: Vector3.create(CABANA_X, 0.15, CABANA_Z),
+    position: Vector3.create(CABANA_X, 0.30, CABANA_Z),
     scale: Vector3.create(6.2, 0.25, 4.8)
   })
   MeshRenderer.setBox(cabanaPlatform)
@@ -461,7 +474,7 @@ export function setupEstateGrounds() {
   postOffsets.forEach(([ox, oz]) => {
     const post = engine.addEntity()
     Transform.create(post, {
-      position: Vector3.create(CABANA_X + ox, 1.65, CABANA_Z + oz),
+      position: Vector3.create(CABANA_X + ox, 1.80, CABANA_Z + oz),
       scale: Vector3.create(0.18, 2.8, 0.18)
     })
     MeshRenderer.setBox(post)
@@ -471,7 +484,7 @@ export function setupEstateGrounds() {
   // Cabana Roof Canopy
   const cabanaRoof = engine.addEntity()
   Transform.create(cabanaRoof, {
-    position: Vector3.create(CABANA_X, 3.10, CABANA_Z),
+    position: Vector3.create(CABANA_X, 3.25, CABANA_Z),
     scale: Vector3.create(6.4, 0.12, 5.0)
   })
   MeshRenderer.setBox(cabanaRoof)
@@ -480,7 +493,7 @@ export function setupEstateGrounds() {
   // Daybed Loungers
   const daybedLeft = engine.addEntity()
   Transform.create(daybedLeft, {
-    position: Vector3.create(CABANA_X - 1.6, 0.42, CABANA_Z),
+    position: Vector3.create(CABANA_X - 1.6, 0.55, CABANA_Z),
     scale: Vector3.create(1.5, 0.35, 3.2)
   })
   MeshRenderer.setBox(daybedLeft)
@@ -489,7 +502,7 @@ export function setupEstateGrounds() {
 
   const daybedRight = engine.addEntity()
   Transform.create(daybedRight, {
-    position: Vector3.create(CABANA_X + 1.6, 0.42, CABANA_Z),
+    position: Vector3.create(CABANA_X + 1.6, 0.55, CABANA_Z),
     scale: Vector3.create(1.5, 0.35, 3.2)
   })
   MeshRenderer.setBox(daybedRight)
