@@ -347,9 +347,9 @@ for (s_name, t_val, z_base, s_len, s_depth, s_height, shift_y, has_pool) in SIX_
         ex = bx + (side * (s_len * 0.5 - 0.35) * math.cos(rot_z))
         ey = by + (side * (s_len * 0.5 - 0.35) * math.sin(rot_z))
         
-        # Door portal dimensions (standardized 3.10m clear height so avatars with hats/wearables fit comfortably)
+        # Door portal dimensions (standardized 3.40m clear height so avatars with hats/wearables fit comfortably)
         door_w = 1.40
-        door_h = 3.10
+        door_h = 3.40
         
         # Calculate precise aligned door position along the wall (s is signed distance along wall from center (ex, ey))
         if s_name == "Suite_03_SkyBridge":
@@ -1013,18 +1013,18 @@ for side_x, side_tag, side_dir in [(-5.8, "West", -1), (5.8, "East", 1)]:
     w_rear.data.materials.append(mat_stone)
 
     # Limestone Wall Infill above Wing Doorway up to Ceiling Slab
-    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, 4.8, 5.85))
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, 4.8, 6.00))
     w_lintel = bpy.context.active_object
     w_lintel.name = f"Reception_DoorLintel_To_{side_tag}_Wing"
-    w_lintel.scale = (0.40, 1.8, 0.40) # Z: [5.65, 6.05]
+    w_lintel.scale = (0.40, 1.8, 0.20) # Z: [5.90, 6.10]
     bpy.ops.object.transform_apply(scale=True)
     w_lintel.data.materials.append(mat_stone)
 
     for y_jamb in [3.95, 5.65]:
-        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, y_jamb, 4.025))
+        bpy.ops.mesh.primitive_cube_add(size=1.0, location=(side_x, y_jamb, 4.15))
         w_jamb = bpy.context.active_object
         w_jamb.name = f"Reception_DoorJamb_To_{side_tag}_Wing_{y_jamb}"
-        w_jamb.scale = (0.45, 0.12, 3.25) # Z: [2.40, 5.65]
+        w_jamb.scale = (0.45, 0.12, 3.50) # Z: [2.40, 5.90]
         bpy.ops.object.transform_apply(scale=True)
         w_jamb.data.materials.append(mat_bronze)
 
@@ -1038,12 +1038,12 @@ for side_x, side_tag, side_dir in [(-5.8, "West", -1), (5.8, "East", 1)]:
     bpy.ops.object.transform_apply(scale=True)
     c_fl.data.materials.append(mat_stone)
 
-    # Roof (terminates flush at outer face of reception wall X = +/-6.0 to avoid projecting into doorway)
+    # Roof (terminates flush at outer face of reception wall X = +/-6.0, elevated flush with reception ceiling)
     corr_roof_center_x = side_x + (side_dir * 1.7)
-    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(corr_roof_center_x, 4.8, 5.75))
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(corr_roof_center_x, 4.8, 6.125))
     c_rf = bpy.context.active_object
     c_rf.name = f"Corridor_Roof_{side_tag}"
-    c_rf.scale = (3.0, 2.2, 0.2) # Z: [5.65, 5.85], X: from outer wall face 6.0 outward to 9.0
+    c_rf.scale = (3.0, 2.2, 0.2) # Z: [6.025, 6.225], X: from outer wall face 6.0 outward to 9.0
     bpy.ops.object.transform_apply(scale=True)
     c_rf.data.materials.append(mat_stone)
 

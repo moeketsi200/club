@@ -98,10 +98,10 @@ export function main() {
   }
 
   // Hallway signs positioned above 3.40m tall doorway portals
-  createHallSign(Vector3.create(37.8, 6.20, 21.25), 'EAST WING ▶\n(SUITES 4, 5 & 6)')
-  createHallSign(Vector3.create(26.2, 6.20, 21.25), '◀ WEST WING\n(SUITES 1 & 2)')
-  createHallSign(Vector3.create(32.0, 6.40, 18.2), '▲ SKYBRIDGE PENTHOUSE ▲\n(SUITE 3 - GRAND STAIRS)')
-  createHallSign(Vector3.create(32.0, 6.20, 20.6), '▲ ROOFTOP SKYLINE NIGHTCLUB ▲\n(EXPRESS SKY LIFT)')
+  createHallSign(Vector3.create(37.8, 6.18, 20.80), 'EAST WING ▶\n(SUITES 4, 5 & 6)')
+  createHallSign(Vector3.create(26.2, 6.18, 20.80), '◀ WEST WING\n(SUITES 1 & 2)')
+  createHallSign(Vector3.create(32.0, 6.40, 18.20), '▲ SKYBRIDGE PENTHOUSE ▲\n(SUITE 3 - GRAND STAIRS)')
+  createHallSign(Vector3.create(32.0, 6.20, 20.60), '▲ ROOFTOP SKYLINE NIGHTCLUB ▲\n(EXPRESS SKY LIFT)')
 
   // 3. Sliding Doors Architecture (Facing FRONT STEPS at Z = 23.8)
   const DOOR_Z = 23.8
@@ -155,10 +155,10 @@ export function main() {
   MeshRenderer.setBox(topTrack)
   Material.setPbrMaterial(topTrack, bronzeAccentMaterial)
 
-  // Slim Bronze Door Frame Lintels for East and West Reception Portals (3.40m clear walk-through height)
+  // Slim Bronze Door Frame Lintels for East and West Reception Portals (exact 3.40m clear walk-through height)
   const eastDoorHeader = engine.addEntity()
   Transform.create(eastDoorHeader, {
-    position: Vector3.create(26.20, 5.92, 20.80),
+    position: Vector3.create(26.20, 5.94, 20.80),
     scale: Vector3.create(0.44, 0.08, 1.80)
   })
   MeshRenderer.setBox(eastDoorHeader)
@@ -167,7 +167,7 @@ export function main() {
 
   const westDoorHeader = engine.addEntity()
   Transform.create(westDoorHeader, {
-    position: Vector3.create(37.80, 5.92, 20.80),
+    position: Vector3.create(37.80, 5.94, 20.80),
     scale: Vector3.create(0.44, 0.08, 1.80)
   })
   MeshRenderer.setBox(westDoorHeader)
