@@ -74,17 +74,69 @@ export function setupEstateGrounds() {
   }
 
   // ---------------------------------------------------------------------------
-  // 2. Full 16-Parcel Estate Ground Plane (64m × 64m)
+  // 2. Grand Travertine Resort Plaza Floor (Surrounding Villa)
+  // Replaces raw grass outside and beneath the villa with a seamless luxury stone terrace
   // ---------------------------------------------------------------------------
-  // Ground Lawn Base spanning entire 4x4 grid (Z: 0 to 64, X: 0 to 64)
-  const estateGround = engine.addEntity()
-  Transform.create(estateGround, {
-    position: Vector3.create(32.0, -0.05, 32.0),
-    scale: Vector3.create(63.8, 0.10, 63.8)
+  const PLAZA_CENTER_X = 32.0
+  const PLAZA_CENTER_Z = 14.5
+  const PLAZA_WIDTH_X = 54.0
+  const PLAZA_DEPTH_Z = 25.0
+  const PLAZA_FLOOR_Y = 0.08
+
+  // Dark Slate Accent Perimeter Rim
+  const plazaRim = engine.addEntity()
+  Transform.create(plazaRim, {
+    position: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y - 0.01, PLAZA_CENTER_Z),
+    scale: Vector3.create(PLAZA_WIDTH_X + 0.6, 0.18, PLAZA_DEPTH_Z + 0.6)
   })
-  MeshRenderer.setBox(estateGround)
-  MeshCollider.setBox(estateGround)
-  Material.setPbrMaterial(estateGround, manicuredLawnMat)
+  MeshRenderer.setBox(plazaRim)
+  MeshCollider.setBox(plazaRim)
+  Material.setPbrMaterial(plazaRim, darkSlateMat)
+
+  // Polished Travertine Stone Plaza Floor (Flush with Arrival Boulevard at Z = 24 - 27)
+  const villaPlazaFloor = engine.addEntity()
+  Transform.create(villaPlazaFloor, {
+    position: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y, PLAZA_CENTER_Z),
+    scale: Vector3.create(PLAZA_WIDTH_X, 0.18, PLAZA_DEPTH_Z)
+  })
+  MeshRenderer.setBox(villaPlazaFloor)
+  MeshCollider.setBox(villaPlazaFloor)
+  Material.setPbrMaterial(villaPlazaFloor, travertineStoneMat)
+
+  // Gold Architectural Inset Border along Plaza Perimeter
+  const plazaTrimSegments = [
+    { pos: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y + 0.095, PLAZA_CENTER_Z - PLAZA_DEPTH_Z * 0.5 + 0.25), scale: Vector3.create(PLAZA_WIDTH_X - 0.5, 0.015, 0.10) },
+    { pos: Vector3.create(PLAZA_CENTER_X, PLAZA_FLOOR_Y + 0.095, PLAZA_CENTER_Z + PLAZA_DEPTH_Z * 0.5 - 0.25), scale: Vector3.create(PLAZA_WIDTH_X - 0.5, 0.015, 0.10) },
+    { pos: Vector3.create(PLAZA_CENTER_X - PLAZA_WIDTH_X * 0.5 + 0.25, PLAZA_FLOOR_Y + 0.095, PLAZA_CENTER_Z), scale: Vector3.create(0.10, 0.015, PLAZA_DEPTH_Z - 0.5) },
+    { pos: Vector3.create(PLAZA_CENTER_X + PLAZA_WIDTH_X * 0.5 - 0.25, PLAZA_FLOOR_Y + 0.095, PLAZA_CENTER_Z), scale: Vector3.create(0.10, 0.015, PLAZA_DEPTH_Z - 0.5) }
+  ]
+  plazaTrimSegments.forEach((seg) => {
+    const goldTrim = engine.addEntity()
+    Transform.create(goldTrim, { position: seg.pos, scale: seg.scale })
+    MeshRenderer.setBox(goldTrim)
+    Material.setPbrMaterial(goldTrim, polishedGoldMat)
+  })
+
+  // ---------------------------------------------------------------------------
+  // 2B. Landscaped Garden Lawn Areas (Front Park & Estate Borders)
+  // Keeps grass in the landscaped resort grounds without invading the villa terrace
+  // ---------------------------------------------------------------------------
+  const createLawnSection = (pos: Vector3, scale: Vector3) => {
+    const lawn = engine.addEntity()
+    Transform.create(lawn, { position: pos, scale })
+    MeshRenderer.setBox(lawn)
+    MeshCollider.setBox(lawn)
+    Material.setPbrMaterial(lawn, manicuredLawnMat)
+  }
+
+  // Front Estate Park Lawn (Z: 26.8 to 63.8, hosting cabanas, pools, avenue, fire pit)
+  createLawnSection(Vector3.create(32.0, -0.05, 45.3), Vector3.create(63.8, 0.10, 37.0))
+  // West Side Garden Strip
+  createLawnSection(Vector3.create(2.5, -0.05, 14.5), Vector3.create(5.0, 0.10, 25.0))
+  // East Side Garden Strip
+  createLawnSection(Vector3.create(61.5, -0.05, 14.5), Vector3.create(5.0, 0.10, 25.0))
+  // North / Rear Garden Strip
+  createLawnSection(Vector3.create(32.0, -0.05, 1.0), Vector3.create(63.8, 0.10, 2.0))
 
   // ---------------------------------------------------------------------------
   // 3. Grand Arrival Boulevard & VIP Avenue (Z = 24 to 58)

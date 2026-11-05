@@ -725,97 +725,124 @@ export function setupRooftopClub() {
   })
 
   // ---------------------------------------------------------------------------
-  // 6. Rooftop Club Cocktail Bar (East Terrace Deck: X = 37 to 42)
+  // 6. Rooftop Club Freestanding Island Cocktail Bar (360° Open - No Walls)
+  // Centered with generous open clearances on all 4 sides (does not touch any wall or railing)
   // ---------------------------------------------------------------------------
-  const BAR_CENTER_X = 39.5
-  const BAR_CENTER_Z = 15.8
+  const BAR_CENTER_X = 39.0
+  const BAR_CENTER_Z = 16.0
   const BAR_Y = ROOF_Y
 
-  // Bar Counter (Linear 5.2m)
+  // Freestanding Island Bar Counter Base (Obsidian)
   const barCounter = engine.addEntity()
   Transform.create(barCounter, {
-    position: Vector3.create(BAR_CENTER_X, BAR_Y + 0.60, BAR_CENTER_Z),
-    scale: Vector3.create(1.2, 1.20, 5.2)
+    position: Vector3.create(BAR_CENTER_X, BAR_Y + 0.58, BAR_CENTER_Z),
+    scale: Vector3.create(1.4, 1.15, 3.8)
   })
   MeshRenderer.setBox(barCounter)
   MeshCollider.setBox(barCounter)
   Material.setPbrMaterial(barCounter, obsidianDeckMat)
 
-  // Glowing Front LED Apron
-  const barFrontLed = engine.addEntity()
-  Transform.create(barFrontLed, {
-    position: Vector3.create(BAR_CENTER_X - 0.62, BAR_Y + 0.60, BAR_CENTER_Z),
-    scale: Vector3.create(0.04, 1.16, 5.1)
+  // Bar Counter Gold Accent Trim
+  const barCounterTrim = engine.addEntity()
+  Transform.create(barCounterTrim, {
+    position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.15, BAR_CENTER_Z),
+    scale: Vector3.create(1.46, 0.05, 3.86)
   })
-  MeshRenderer.setBox(barFrontLed)
-  Material.setPbrMaterial(barFrontLed, neonCyanMat)
+  MeshRenderer.setBox(barCounterTrim)
+  Material.setPbrMaterial(barCounterTrim, polishedGoldMat)
 
-  // Bar Top Marble Slab
+  // Bar Top Travertine Marble Slab
   const barTop = engine.addEntity()
   Transform.create(barTop, {
-    position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.22, BAR_CENTER_Z),
-    scale: Vector3.create(1.4, 0.08, 5.4)
+    position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.20, BAR_CENTER_Z),
+    scale: Vector3.create(1.60, 0.08, 4.0)
   })
   MeshRenderer.setBox(barTop)
   MeshCollider.setBox(barTop)
   Material.setPbrMaterial(barTop, travertineMarbleMat)
 
-  // Back-Bar Shelving Wall
-  const backBarWall = engine.addEntity()
-  Transform.create(backBarWall, {
-    position: Vector3.create(BAR_CENTER_X + 1.8, BAR_Y + 1.6, BAR_CENTER_Z),
-    scale: Vector3.create(0.35, 3.2, 5.2)
+  // 360° Glowing LED Aprons (All 4 Sides of the Island Counter)
+  const createBarApron = (pos: Vector3, scale: Vector3, mat: any) => {
+    const apron = engine.addEntity()
+    Transform.create(apron, { position: pos, scale })
+    MeshRenderer.setBox(apron)
+    Material.setPbrMaterial(apron, mat)
+  }
+  // West apron (facing dancefloor)
+  createBarApron(Vector3.create(BAR_CENTER_X - 0.72, BAR_Y + 0.58, BAR_CENTER_Z), Vector3.create(0.04, 1.10, 3.7), neonCyanMat)
+  // East apron (facing terrace)
+  createBarApron(Vector3.create(BAR_CENTER_X + 0.72, BAR_Y + 0.58, BAR_CENTER_Z), Vector3.create(0.04, 1.10, 3.7), neonMagentaMat)
+  // North apron
+  createBarApron(Vector3.create(BAR_CENTER_X, BAR_Y + 0.58, BAR_CENTER_Z - 1.92), Vector3.create(1.4, 1.10, 0.04), neonCyanMat)
+  // South apron
+  createBarApron(Vector3.create(BAR_CENTER_X, BAR_Y + 0.58, BAR_CENTER_Z + 1.92), Vector3.create(1.4, 1.10, 0.04), neonMagentaMat)
+
+  // Central Tiered Island Bottle Display (Freestanding on the marble counter top, 0 walls)
+  // Lower Display Riser
+  const tierLower = engine.addEntity()
+  Transform.create(tierLower, {
+    position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.32, BAR_CENTER_Z),
+    scale: Vector3.create(0.44, 0.16, 2.6)
   })
-  MeshRenderer.setBox(backBarWall)
-  MeshCollider.setBox(backBarWall)
-  Material.setPbrMaterial(backBarWall, obsidianDeckMat)
+  MeshRenderer.setBox(tierLower)
+  Material.setPbrMaterial(tierLower, polishedGoldMat)
 
-  // 3 Shelves with glowing bottles
-  for (let s = 0; s < 3; s++) {
-    const shelfY = BAR_Y + 0.9 + s * 0.85
-    const shelf = engine.addEntity()
-    Transform.create(shelf, {
-      position: Vector3.create(BAR_CENTER_X + 1.6, shelfY, BAR_CENTER_Z),
-      scale: Vector3.create(0.35, 0.05, 4.8)
+  // Upper Display Riser
+  const tierUpper = engine.addEntity()
+  Transform.create(tierUpper, {
+    position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.48, BAR_CENTER_Z),
+    scale: Vector3.create(0.24, 0.16, 1.9)
+  })
+  MeshRenderer.setBox(tierUpper)
+  Material.setPbrMaterial(tierUpper, smokedGlassMat)
+
+  // Illuminated Luxury Liquor Bottles on Display Risers
+  for (let b = -3; b <= 3; b++) {
+    // Lower tier bottles
+    const bLower = engine.addEntity()
+    Transform.create(bLower, {
+      position: Vector3.create(BAR_CENTER_X + (b % 2 === 0 ? 0.12 : -0.12), BAR_Y + 1.48, BAR_CENTER_Z + b * 0.38),
+      scale: Vector3.create(0.10, 0.30, 0.10)
     })
-    MeshRenderer.setBox(shelf)
-    Material.setPbrMaterial(shelf, polishedGoldMat)
+    MeshRenderer.setCylinder(bLower)
+    Material.setPbrMaterial(bLower, palette[(Math.abs(b) + 1) % palette.length])
 
-    // Glowing bottles along each shelf
-    for (let b = -4; b <= 4; b++) {
-      const bottleEntity = engine.addEntity()
-      Transform.create(bottleEntity, {
-        position: Vector3.create(BAR_CENTER_X + 1.6, shelfY + 0.18, BAR_CENTER_Z + b * 0.52),
-        scale: Vector3.create(0.10, 0.32, 0.10)
+    // Upper tier bottles (inner 4)
+    if (Math.abs(b) <= 2) {
+      const bUpper = engine.addEntity()
+      Transform.create(bUpper, {
+        position: Vector3.create(BAR_CENTER_X, BAR_Y + 1.64, BAR_CENTER_Z + b * 0.38),
+        scale: Vector3.create(0.09, 0.28, 0.09)
       })
-      MeshRenderer.setCylinder(bottleEntity)
-      const bMat = palette[(Math.abs(b) + s) % palette.length]
-      Material.setPbrMaterial(bottleEntity, bMat)
+      MeshRenderer.setCylinder(bUpper)
+      Material.setPbrMaterial(bUpper, palette[(Math.abs(b) + 3) % palette.length])
     }
   }
 
-  // 5 Modern Barstools
-  for (let stool = -2; stool <= 2; stool++) {
-    const stoolZ = BAR_CENTER_Z + stool * 1.05
+  // Modern Barstools (West and East sides, leaving open walkways around the island)
+  for (let sIdx = -1; sIdx <= 1; sIdx++) {
+    const stoolZ = BAR_CENTER_Z + sIdx * 1.20
 
-    // Stool base
-    const stoolPost = engine.addEntity()
-    Transform.create(stoolPost, {
-      position: Vector3.create(BAR_CENTER_X - 1.2, BAR_Y + 0.38, stoolZ),
-      scale: Vector3.create(0.08, 0.75, 0.08)
-    })
-    MeshRenderer.setCylinder(stoolPost)
-    Material.setPbrMaterial(stoolPost, polishedGoldMat)
+    for (const [stoolX, rotDeg] of [[BAR_CENTER_X - 1.15, 90], [BAR_CENTER_X + 1.15, -90]]) {
+      // Stool post
+      const stoolPost = engine.addEntity()
+      Transform.create(stoolPost, {
+        position: Vector3.create(stoolX, BAR_Y + 0.38, stoolZ),
+        scale: Vector3.create(0.08, 0.75, 0.08)
+      })
+      MeshRenderer.setCylinder(stoolPost)
+      Material.setPbrMaterial(stoolPost, polishedGoldMat)
 
-    // Stool seat cushion
-    const stoolSeat = engine.addEntity()
-    Transform.create(stoolSeat, {
-      position: Vector3.create(BAR_CENTER_X - 1.2, BAR_Y + 0.76, stoolZ),
-      scale: Vector3.create(0.48, 0.12, 0.48)
-    })
-    MeshRenderer.setCylinder(stoolSeat)
-    MeshCollider.setBox(stoolSeat)
-    Material.setPbrMaterial(stoolSeat, crimsonVelvetMat)
+      // Stool seat cushion
+      const stoolSeat = engine.addEntity()
+      Transform.create(stoolSeat, {
+        position: Vector3.create(stoolX, BAR_Y + 0.76, stoolZ),
+        scale: Vector3.create(0.48, 0.12, 0.48)
+      })
+      MeshRenderer.setCylinder(stoolSeat)
+      MeshCollider.setBox(stoolSeat)
+      Material.setPbrMaterial(stoolSeat, crimsonVelvetMat)
+    }
   }
 
   // Bar Neon Sign
